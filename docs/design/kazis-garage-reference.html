@@ -1,0 +1,1077 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font:
+          14px -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: #faf9f5;
+        color: #141413;
+      }
+      img {
+        max-width: 100%;
+      }
+      [hidden]:not([hidden="until-found" i]) {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <title>Kazi's Garage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Layout: a personal homepage that is also a permanent garage sale.
+     Flat primary blocks, thick ink outlines, hard offset shadows.
+     Single light theme on purpose: primaries need white paper. */
+      :root {
+        color-scheme: light;
+        --paper: #ffffff;
+        --ink: #111114;
+        --red: #e8302a;
+        --yellow: #ffd100;
+        --blue: #1f4bd8;
+        --soft: #f1f1ee;
+        --muted: #55555c;
+        --display: "Dela Gothic One", "Arial Black", sans-serif;
+        --body: "Zen Kaku Gothic New", system-ui, sans-serif;
+        --mono: "DM Mono", ui-monospace, monospace;
+        --line: 3px solid var(--ink);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--body);
+        font-size: 15px;
+        line-height: 1.6;
+        padding-inline: 16px;
+        -webkit-font-smoothing: antialiased;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 3px solid var(--blue);
+        outline-offset: 3px;
+      }
+
+      /* ---- Design note above the mock ---- */
+      .intro {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding-block: 28px 0;
+      }
+      .kicker {
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin: 0 0 6px;
+        color: var(--blue);
+      }
+      .intro p {
+        margin: 0;
+        max-width: 66ch;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .intro strong {
+        color: var(--ink);
+      }
+
+      .site {
+        max-width: 1040px;
+        margin: 22px auto 56px;
+        border: var(--line);
+        background: var(--paper);
+        box-shadow: 8px 8px 0 var(--ink);
+      }
+
+      /* ---- Nav ---- */
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px 20px;
+        padding: 14px 22px;
+        border-bottom: var(--line);
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--display);
+        font-size: 20px;
+        text-decoration: none;
+      }
+      .logo-mark {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 26px;
+        height: 26px;
+        border: 2px solid var(--ink);
+      }
+      .logo-mark i:nth-child(1) {
+        background: var(--red);
+      }
+      .logo-mark i:nth-child(2) {
+        background: var(--yellow);
+      }
+      .logo-mark i:nth-child(3) {
+        background: var(--blue);
+      }
+      .logo-mark i:nth-child(4) {
+        background: var(--paper);
+      }
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 18px;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .links a {
+        text-decoration: none;
+        border-bottom: 3px solid transparent;
+      }
+      .links a:hover {
+        border-color: var(--red);
+      }
+      .links .count {
+        font-family: var(--mono);
+        font-size: 11px;
+        background: var(--red);
+        color: var(--paper);
+        padding: 1px 6px;
+        margin-left: 4px;
+        border-radius: 999px;
+        vertical-align: 1px;
+      }
+
+      /* ---- Hero ---- */
+      .hero {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        border-bottom: var(--line);
+      }
+      .hero-copy {
+        padding: 44px 30px 40px;
+        min-width: 0;
+      }
+      .hello {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: var(--yellow);
+        border: 2px solid var(--ink);
+        padding: 3px 10px;
+        margin: 0 0 18px;
+      }
+      h1 {
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: clamp(34px, 5.6vw, 58px);
+        line-height: 1.05;
+        margin: 0 0 18px;
+        text-wrap: balance;
+        letter-spacing: -0.01em;
+      }
+      h1 .hl-red {
+        color: var(--red);
+      }
+      h1 .hl-blue {
+        color: var(--blue);
+      }
+      .hero-sub {
+        margin: 0 0 26px;
+        max-width: 44ch;
+        font-size: 16.5px;
+      }
+      .ctas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .btn {
+        font: 700 15px var(--body);
+        padding: 12px 20px;
+        border: var(--line);
+        cursor: pointer;
+        box-shadow: 4px 4px 0 var(--ink);
+        transition:
+          transform 0.12s,
+          box-shadow 0.12s;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 var(--ink);
+      }
+      .btn:active {
+        transform: translate(3px, 3px);
+        box-shadow: 1px 1px 0 var(--ink);
+      }
+      .btn-primary {
+        background: var(--red);
+        color: var(--paper);
+      }
+      .btn-ghost {
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      /* Price tag: the whole pitch in one receipt */
+      .hero-art {
+        background: var(--blue);
+        border-left: var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 36px 24px;
+        position: relative;
+        overflow: hidden;
+        min-width: 0;
+      }
+      .hero-art::before {
+        content: "";
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: var(--yellow);
+        border: var(--line);
+        top: -40px;
+        right: -40px;
+      }
+      .hero-art::after {
+        content: "";
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        background: var(--red);
+        border: var(--line);
+        bottom: -30px;
+        left: 18px;
+        transform: rotate(12deg);
+      }
+      .tag {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 290px;
+        background: var(--paper);
+        border: var(--line);
+        box-shadow: 7px 7px 0 var(--ink);
+        padding: 18px 20px 20px;
+        transform: rotate(-3deg);
+      }
+      .tag-hole {
+        width: 14px;
+        height: 14px;
+        border: var(--line);
+        border-radius: 50%;
+        margin: 0 auto 10px;
+        background: var(--blue);
+      }
+      .tag-item {
+        font-weight: 700;
+        margin: 0 0 12px;
+        font-size: 14px;
+        border-bottom: 2px dashed var(--ink);
+        padding-bottom: 10px;
+      }
+      .tag-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-family: var(--mono);
+        font-size: 14px;
+        font-variant-numeric: tabular-nums;
+        padding: 3px 0;
+      }
+      .tag-row.fee {
+        color: var(--muted);
+        position: relative;
+      }
+      .tag-row.fee::after {
+        content: "";
+        position: absolute;
+        left: -4px;
+        right: -4px;
+        top: 50%;
+        height: 3px;
+        background: var(--red);
+        transform-origin: left;
+        animation: strike 0.6s 0.5s cubic-bezier(0.6, 0, 0.3, 1) both;
+      }
+      @keyframes strike {
+        from {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
+      }
+      .tag-row.total {
+        font-weight: 500;
+        font-size: 17px;
+        border-top: var(--line);
+        margin-top: 8px;
+        padding-top: 10px;
+      }
+      .stamp {
+        position: absolute;
+        right: -18px;
+        bottom: -22px;
+        width: 78px;
+        height: 78px;
+        border-radius: 50%;
+        background: var(--yellow);
+        border: var(--line);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        font-family: var(--display);
+        font-size: 21px;
+        line-height: 0.95;
+        transform: rotate(12deg);
+        animation: pop 0.4s 1.05s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+      }
+      .stamp small {
+        display: block;
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 0.08em;
+      }
+      @keyframes pop {
+        from {
+          transform: rotate(12deg) scale(0);
+        }
+        to {
+          transform: rotate(12deg) scale(1);
+        }
+      }
+
+      /* ---- Ticker (the quiet message) ---- */
+      .ticker {
+        background: var(--yellow);
+        border-bottom: var(--line);
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .ticker-track {
+        display: inline-flex;
+        gap: 34px;
+        padding: 9px 0;
+        font-family: var(--display);
+        font-size: 15px;
+        animation: scroll 32s linear infinite;
+      }
+      .ticker-track span::after {
+        content: "●";
+        margin-left: 34px;
+        color: var(--red);
+        font-size: 11px;
+        vertical-align: 2px;
+      }
+      @keyframes scroll {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ---- Sections ---- */
+      section.block {
+        padding: 36px 30px;
+        border-bottom: var(--line);
+      }
+      .sec-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px 16px;
+        margin-bottom: 20px;
+      }
+      h2 {
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: 26px;
+        margin: 0;
+        line-height: 1.15;
+      }
+      .sec-note {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+
+      /* Filter chips */
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+      .chip {
+        font: 700 13px var(--body);
+        padding: 5px 12px;
+        border: 2px solid var(--ink);
+        background: var(--paper);
+        border-radius: 999px;
+        cursor: pointer;
+        color: var(--ink);
+      }
+      .chip[aria-pressed="true"] {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      /* Listings */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+      .card {
+        border: var(--line);
+        background: var(--paper);
+        display: flex;
+        flex-direction: column;
+        transition:
+          transform 0.14s,
+          box-shadow 0.14s;
+      }
+      .card:hover {
+        transform: translate(-3px, -3px);
+        box-shadow: 6px 6px 0 var(--ink);
+      }
+      .media {
+        aspect-ratio: 4 / 3;
+        max-width: 100%;
+        border-bottom: var(--line);
+        position: relative;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+      .m-red {
+        background: var(--red);
+      }
+      .m-yellow {
+        background: var(--yellow);
+      }
+      .m-blue {
+        background: var(--blue);
+      }
+      .shape {
+        width: 44%;
+        aspect-ratio: 1;
+        border: var(--line);
+        background: var(--paper);
+      }
+      .shape.circle {
+        border-radius: 50%;
+      }
+      .shape.tri {
+        background: none;
+        border: none;
+        width: 0;
+        height: 0;
+        aspect-ratio: auto;
+        border-left: 44px solid transparent;
+        border-right: 44px solid transparent;
+        border-bottom: 76px solid var(--paper);
+        filter: drop-shadow(0 0 0 var(--ink));
+      }
+      .cond {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 500;
+        background: var(--paper);
+        border: 2px solid var(--ink);
+        padding: 2px 8px;
+      }
+      .card.sold .media {
+        filter: grayscale(1);
+        opacity: 0.55;
+      }
+      .sold-badge {
+        position: absolute;
+        font-family: var(--display);
+        font-size: 26px;
+        color: var(--red);
+        background: var(--paper);
+        border: 3px solid var(--red);
+        padding: 2px 14px;
+        transform: rotate(-10deg);
+      }
+      .body {
+        padding: 14px 16px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+      }
+      .name {
+        margin: 0;
+        font-weight: 700;
+        font-size: 15.5px;
+        line-height: 1.35;
+      }
+      .story {
+        margin: 0;
+        font-size: 13.5px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .price-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        margin-top: auto;
+        padding-top: 10px;
+      }
+      .price {
+        font-family: var(--mono);
+        font-size: 18px;
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+      }
+      .was {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+        text-decoration: line-through;
+        margin-left: 6px;
+      }
+      .where {
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .card .ask {
+        margin-top: 10px;
+        font: 700 13.5px var(--body);
+        padding: 8px 12px;
+        border: 2px solid var(--ink);
+        background: var(--yellow);
+        cursor: pointer;
+        text-align: center;
+        color: var(--ink);
+      }
+      .card .ask:hover {
+        background: var(--ink);
+        color: var(--yellow);
+      }
+      .card.sold .ask {
+        background: var(--soft);
+        color: var(--muted);
+        cursor: default;
+      }
+
+      /* How it works */
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0;
+        border: var(--line);
+      }
+      .step {
+        padding: 20px 20px 22px;
+        min-width: 0;
+      }
+      .step + .step {
+        border-left: var(--line);
+      }
+      .step-num {
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        font-family: var(--display);
+        font-size: 18px;
+        border: var(--line);
+        margin-bottom: 12px;
+      }
+      .step:nth-child(1) .step-num {
+        background: var(--red);
+        color: var(--paper);
+      }
+      .step:nth-child(2) .step-num {
+        background: var(--yellow);
+      }
+      .step:nth-child(3) .step-num {
+        background: var(--blue);
+        color: var(--paper);
+      }
+      .step h3 {
+        margin: 0 0 4px;
+        font-size: 16.5px;
+      }
+      .step p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      /* About (the homepage half) */
+      .about {
+        display: grid;
+        grid-template-columns: 180px minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+      }
+      .avatar {
+        width: 100%;
+        max-width: 180px;
+        aspect-ratio: 1;
+        border: var(--line);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1.4fr 1fr;
+        box-shadow: 6px 6px 0 var(--ink);
+      }
+      .avatar i:nth-child(1) {
+        background: var(--blue);
+        grid-column: 1 / 3;
+        border-bottom: var(--line);
+        display: grid;
+        place-items: center;
+      }
+      .avatar i:nth-child(2) {
+        background: var(--yellow);
+        border-right: var(--line);
+      }
+      .avatar i:nth-child(3) {
+        background: var(--red);
+      }
+      .avatar b {
+        font-family: var(--display);
+        font-size: 40px;
+        font-style: normal;
+        color: var(--paper);
+      }
+      .about p {
+        margin: 0 0 12px;
+        max-width: 62ch;
+      }
+      .now {
+        list-style: none;
+        padding: 0;
+        margin: 16px 0 0;
+        display: grid;
+        gap: 8px;
+      }
+      .now li {
+        display: flex;
+        gap: 12px;
+        align-items: baseline;
+        font-size: 14.5px;
+      }
+      .now .lbl {
+        flex: 0 0 76px;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        border: 2px solid var(--ink);
+        padding: 1px 6px;
+        text-align: center;
+      }
+
+      /* Footer */
+      .foot {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px 20px;
+        padding: 20px 30px;
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .foot-brand {
+        font-family: var(--display);
+        font-size: 16px;
+      }
+      .foot-tag {
+        font-size: 13px;
+        opacity: 0.85;
+      }
+      .hanko {
+        font-family: "Zen Kaku Gothic New", sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        color: var(--red);
+        border: 2px solid var(--red);
+        padding: 4px 8px;
+        background: var(--paper);
+        transform: rotate(-4deg);
+        display: inline-block;
+        writing-mode: vertical-rl;
+        letter-spacing: 0.1em;
+        line-height: 1.2;
+      }
+
+      @media (max-width: 760px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+        .hero-art {
+          border-left: 0;
+          border-top: var(--line);
+          padding: 44px 24px 52px;
+        }
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .steps {
+          grid-template-columns: 1fr;
+        }
+        .step + .step {
+          border-left: 0;
+          border-top: var(--line);
+        }
+      }
+      @media (max-width: 520px) {
+        .hero-copy,
+        section.block {
+          padding-inline: 18px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .about {
+          grid-template-columns: 1fr;
+        }
+        .avatar {
+          max-width: 130px;
+        }
+        .site {
+          box-shadow: 5px 5px 0 var(--ink);
+        }
+        .nav,
+        .foot {
+          padding-inline: 18px;
+        }
+      }
+    </style>
+
+    <div class="site">
+      <header class="nav">
+        <a class="logo" href="#top"
+          ><span class="logo-mark" aria-hidden="true"
+            ><i></i><i></i><i></i><i></i></span
+          >Kazi's Garage</a
+        >
+        <nav class="links" aria-label="Main">
+          <a href="#sale">For sale<span class="count">5</span></a>
+          <a href="#how">How to buy</a>
+          <a href="#about">About me</a>
+        </nav>
+      </header>
+
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="hello">Hi, I'm Kazi · Vancouver, BC</p>
+          <h1>
+            My stuff, my site, <span class="hl-red">zero&nbsp;fees</span>.
+            <span class="hl-blue">Pick it up</span> from me.
+          </h1>
+          <p class="hero-sub">
+            This is my corner of the internet, plus a garage sale that never
+            closes. Things I've loved and don't use anymore, priced fairly, sold
+            straight from me to you.
+          </p>
+          <div class="ctas">
+            <a class="btn btn-primary" href="#sale">See what's for sale</a>
+            <a class="btn btn-ghost" href="#about">Who's selling?</a>
+          </div>
+        </div>
+
+        <div
+          class="hero-art"
+          aria-label="Example price tag: $134 listed, no platform fee, seller receives $134"
+        >
+          <div class="tag">
+            <div class="tag-hole" aria-hidden="true"></div>
+            <p class="tag-item">Digital Torque Wrench Set</p>
+            <div class="tag-row"><span>You pay</span><span>$134.00</span></div>
+            <div class="tag-row fee">
+              <span>Platform fee</span><span>−$13.40</span>
+            </div>
+            <div class="tag-row total">
+              <span>I get</span><span>$134.00</span>
+            </div>
+            <div class="stamp" aria-hidden="true">
+              <span>0%<small>FEES</small></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>No app to download</span><span>No seller fees</span
+          ><span>No buyer fees</span><span>No algorithm</span
+          ><span>Just me and my stuff</span><span>Pickup in East Van</span>
+          <span>No app to download</span><span>No seller fees</span
+          ><span>No buyer fees</span><span>No algorithm</span
+          ><span>Just me and my stuff</span><span>Pickup in East Van</span>
+        </div>
+      </div>
+
+      <section class="block" id="sale">
+        <div class="sec-head">
+          <h2>For sale right now</h2>
+          <span class="sec-note">Prices in CAD · updated Sep 29</span>
+        </div>
+        <div class="chips" role="group" aria-label="Filter listings">
+          <button class="chip" id="f-all" aria-pressed="true" data-f="all">
+            All
+          </button>
+          <button
+            class="chip"
+            id="f-garage"
+            aria-pressed="false"
+            data-f="garage"
+          >
+            Garage
+          </button>
+          <button class="chip" id="f-home" aria-pressed="false" data-f="home">
+            Home
+          </button>
+          <button
+            class="chip"
+            id="f-outdoor"
+            aria-pressed="false"
+            data-f="outdoor"
+          >
+            Outdoor
+          </button>
+        </div>
+
+        <div class="grid" id="grid">
+          <article class="card" data-cat="garage">
+            <div class="m-red media">
+              <span class="shape"></span><span class="cond">Like new</span>
+            </div>
+            <div class="body">
+              <p class="name">Digital Torque Wrench Set</p>
+              <p class="story">
+                Used for one set of winter tires. Case and manual included.
+              </p>
+              <div class="price-row">
+                <span
+                  ><span class="price">$134</span
+                  ><span class="was">$210</span></span
+                ><span class="where">Pickup</span>
+              </div>
+              <button class="ask">Ask about this</button>
+            </div>
+          </article>
+          <article class="card" data-cat="outdoor">
+            <div class="m-yellow media">
+              <span class="shape circle"></span><span class="cond">Good</span>
+            </div>
+            <div class="body">
+              <p class="name">MEC 2-Person Tent</p>
+              <p class="story">
+                Three summers on Vancouver Island. No holes, one bent stake.
+              </p>
+              <div class="price-row">
+                <span><span class="price">$90</span></span
+                ><span class="where">Pickup</span>
+              </div>
+              <button class="ask">Ask about this</button>
+            </div>
+          </article>
+          <article class="card" data-cat="home">
+            <div class="m-blue media">
+              <span class="shape"></span><span class="cond">Fair</span>
+            </div>
+            <div class="body">
+              <p class="name">IKEA Kallax Shelf, 2×4</p>
+              <p class="story">
+                White. Small scuff on one corner. Already disassembled.
+              </p>
+              <div class="price-row">
+                <span><span class="price">$40</span></span
+                ><span class="where">Pickup</span>
+              </div>
+              <button class="ask">Ask about this</button>
+            </div>
+          </article>
+          <article class="card" data-cat="garage">
+            <div class="m-yellow media">
+              <span class="shape"></span><span class="cond">Like new</span>
+            </div>
+            <div class="body">
+              <p class="name">LED Shop Light, 1200 lm</p>
+              <p class="story">
+                Magnetic base, rechargeable. Bought a second one by mistake.
+              </p>
+              <div class="price-row">
+                <span
+                  ><span class="price">$38</span
+                  ><span class="was">$55</span></span
+                ><span class="where">Pickup or ship</span>
+              </div>
+              <button class="ask">Ask about this</button>
+            </div>
+          </article>
+          <article class="card" data-cat="home">
+            <div class="m-red media">
+              <span class="shape circle"></span><span class="cond">Good</span>
+            </div>
+            <div class="body">
+              <p class="name">Zojirushi Rice Cooker, 5.5 cup</p>
+              <p class="story">Works perfectly. Upgraded to a bigger one.</p>
+              <div class="price-row">
+                <span><span class="price">$60</span></span
+                ><span class="where">Pickup</span>
+              </div>
+              <button class="ask">Ask about this</button>
+            </div>
+          </article>
+          <article class="card sold" data-cat="outdoor">
+            <div class="m-blue media">
+              <span class="shape circle"></span
+              ><span class="sold-badge">SOLD</span>
+            </div>
+            <div class="body">
+              <p class="name">Kona Commuter Bike, 54 cm</p>
+              <p class="story">Went to a student at UBC. Ride safe!</p>
+              <div class="price-row">
+                <span><span class="price">$280</span></span
+                ><span class="where">Sold Sep 21</span>
+              </div>
+              <button class="ask" disabled>Sold</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="block" id="how">
+        <div class="sec-head">
+          <h2>How buying works</h2>
+          <span class="sec-note">Usually done in a day or two</span>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <h3>Send me a message</h3>
+            <p>
+              Tap "Ask about this." Ask anything, and pick a time that works for
+              you.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <h3>Meet me in East Van</h3>
+            <p>
+              Pickup near Commercial–Broadway SkyTrain. Check the item before
+              you pay.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <h3>Pay by e-Transfer</h3>
+            <p>
+              Interac e-Transfer or cash. The listed price is the full price.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" id="about">
+        <div class="about">
+          <div class="avatar" aria-hidden="true">
+            <i><b>K</b></i
+            ><i></i><i></i>
+          </div>
+          <div>
+            <h2 style="margin-bottom: 12px">About me</h2>
+            <p>
+              I'm Kazi, a software engineer in Vancouver who fixes his own car
+              on weekends and buys one tool too many. This site is where I write
+              about projects, and where good things find their next owner
+              instead of a landfill.
+            </p>
+            <ul class="now">
+              <li><span class="lbl">Building</span>This site, with Claude</li>
+              <li><span class="lbl">Fixing</span>A squeaky front brake</li>
+              <li><span class="lbl">Clearing</span>The garage before winter</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer class="foot">
+        <div>
+          <div class="foot-brand">Kazi's Garage</div>
+          <div class="foot-tag">
+            Vancouver, BC · Every dollar you pay reaches me, and nobody takes a
+            cut.
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const chips = document.querySelectorAll(".chip");
+      const cards = document.querySelectorAll("#grid .card");
+      chips.forEach((c) =>
+        c.addEventListener("click", () => {
+          chips.forEach((x) => x.setAttribute("aria-pressed", String(x === c)));
+          const f = c.dataset.f;
+          cards.forEach((card) => {
+            card.hidden = !(f === "all" || card.dataset.cat === f);
+          });
+        }),
+      );
+    </script>
+  </body>
+</html>

@@ -11,6 +11,38 @@
 
 ---
 
+## Step 1: Homepage
+
+### Q1: Server/Client の境界線をどこで引くか
+
+**Q (EN):** Why is `src/components/Listings.tsx` a Client Component while
+`src/app/page.tsx` (which renders it) stays a Server Component? What's the
+general rule for deciding where the `"use client"` boundary goes?
+
+**Status:** ❓ 未回答
+
+---
+
+### Q2: 回転とはみ出しのバグ
+
+**Q (EN):** The receipt card's bottom row ("I get") was getting clipped on
+the right edge. What caused it, and why did increasing the parent's padding
+and shrinking the card's `max-width` fix it?
+
+**Status:** ❓ 未回答
+
+---
+
+### Q3: `Listing` という型名の選択
+
+**Q (EN):** In `src/lib/listings.ts`, why is the type called `Listing`
+instead of `Product`, and what does its shape (no `quantity`, no variants)
+tell you about the business model this site is built for?
+
+**Status:** ❓ 未回答
+
+---
+
 ## Step 0: Project setup
 
 ### Q1: Server Component と Client Component の違い

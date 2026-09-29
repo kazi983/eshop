@@ -9,57 +9,57 @@
 //   - グローバル CSS（global CSS）
 //   - フォント（fonts）
 //   - サイト全体のメタデータ（metadata：<title>、<meta name="description"> など）
-//   - 今後：カートアイコン付きのヘッダー（header）、フッター（footer）
-//
-// レイアウトは配下のページ間を移動（navigation）しても再レンダリング（re-render）
-// されない。だからヘッダーのような共通 UI は、ページが変わっても状態（state）を保てる。
 //
 // これは Server Component（App Router のデフォルト）。サーバー上で実行され、
 // ブラウザにはプレーンな HTML だけが届く。このコンポーネント用の JavaScript は送られない。
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
-// Nextjsの特徴：`next/font` はフォントをビルド時（build time）にダウンロードし、自分のドメインから配信する。
-// ブラウザが Google に直接アクセスしないので、速くてプライバシー（privacy）にも良い。
-// フォント読み込み時にページがガタッと動く現象（layout shift）も防げる。
-import { Geist, Geist_Mono } from "next/font/google";
+// `next/font` はフォントをビルド時（build time）にダウンロードし、自分のドメインから配信する。
+// docs/design/kazis-garage-reference.html と同じ3書体（3つの役割）を読み込む：
+//   Dela Gothic One      → 見出し（display）。太くてポップな日本語デザイナーズフォント
+//   Zen Kaku Gothic New  → 本文（body）。読みやすい角ゴシック
+//   DM Mono              → 価格・数値（mono）。桁が揃う等幅フォント
+import {
+  Dela_Gothic_One,
+  Zen_Kaku_Gothic_New,
+  DM_Mono,
+} from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  // フォントを CSS 変数（CSS variable）として公開する。
-  // CSS（や Tailwind）から `font-family: var(--font-geist-sans)` のように使える。
-  variable: "--font-geist-sans",
-  // 必要な文字だけをダウンロードする（英語のテキストなので "latin"）。
+const delaGothicOne = Dela_Gothic_One({
+  variable: "--font-dela-gothic-one",
+  weight: "400", // この書体はウェイトが1種類しかない
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const zenKakuGothicNew = Zen_Kaku_Gothic_New({
+  variable: "--font-zen-kaku-gothic-new",
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
 });
 
-// `metadata` は特別な export。Next.js がこれを <head> タグに変換する。
-// 子ページで上書き（override）できる（例：商品ページごとに別のタイトル）。
+const dmMono = DM_Mono({
+  variable: "--font-dm-mono",
+  weight: ["400", "500"],
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  // `template` を使うと、子ページで "T-shirt" とだけ書けば "T-shirt | eshop" になる。
   title: {
-    default: "eshop",
-    template: "%s | eshop",
+    default: "Kazi's Garage",
+    template: "%s | Kazi's Garage",
   },
-  description: "A small online shop. Prices in Canadian dollars (CAD).",
+  description:
+    "Kazi's garage sale that never closes. Vancouver, BC. No fees, no algorithm — just Kazi and his stuff.",
 };
 
-// `LayoutProps<"/">` は、フォルダ構成から Next.js が自動生成する型（generated type）。
-// 「このレイアウトは `children`（現在のページ）を受け取る」という意味。
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    // lang="en" はスクリーンリーダー（screen reader）や検索エンジンの助けになる。
-    // ストアは英語のみ（価格は CAD）なので、この値は変わらない。
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${delaGothicOne.variable} ${zenKakuGothicNew.variable} ${dmMono.variable} h-full antialiased`}
     >
-      {/* `children` は現在の URL に一致する（match する）ページ。 */}
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

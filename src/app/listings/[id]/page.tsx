@@ -12,12 +12,15 @@
 // が「割り込んで」モーダルとして表示される（Intercepting Routes）。
 // 中身の見た目（写真ギャラリー＋商品情報）はどちらも同じ
 // `<ListingDetail>` を共有している。
+//
+// `id` が存在しなければ `notFound()` を呼ぶ。この隣にある
+// `not-found.tsx` が、そのときに表示される 404 ページ。
 // ─────────────────────────────────────────────────────────────────────────────
 
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getListing } from "@/lib/listings";
 import { ListingDetail } from "@/components/ListingDetail";
+import { DetailFrame } from "@/components/DetailFrame";
 
 export default async function ListingPage({
   params,
@@ -25,48 +28,13 @@ export default async function ListingPage({
   const { id } = await params;
   const listing = getListing(id);
 
-  // 存在しない id（例：/listings/does-not-exist）なら、Next.js 標準の
-  // 404 ページを表示する。
   if (!listing) {
     notFound();
   }
 
   return (
-    <div className="border-ink bg-paper mx-auto my-5.5 max-w-[1040px] border-[3px] shadow-[5px_5px_0_var(--ink)] sm:shadow-[8px_8px_0_var(--ink)]">
-      <header className="border-ink flex items-center gap-2.5 border-b-[3px] px-5.5 py-3.5">
-        <Link
-          href="/"
-          className="font-display flex items-center gap-2.5 text-xl no-underline"
-        >
-          <span
-            aria-hidden
-            className="border-ink grid h-6.5 w-6.5 grid-cols-2 border-2"
-          >
-            <i className="bg-red not-italic" />
-            <i className="bg-yellow not-italic" />
-            <i className="bg-blue not-italic" />
-            <i className="bg-paper not-italic" />
-          </span>
-          Kazi&apos;s Garage
-        </Link>
-        <Link
-          href="/#sale"
-          className="text-muted ml-auto text-sm font-bold no-underline hover:underline"
-        >
-          ← Back to shop
-        </Link>
-      </header>
-
+    <DetailFrame>
       <ListingDetail listing={listing} />
-
-      <footer className="bg-ink text-paper flex flex-wrap items-center justify-between gap-3 px-7.5 py-5">
-        <div>
-          <div className="font-display text-base">Kazi&apos;s Garage</div>
-          <div className="text-[13px] opacity-85">
-            Vancouver, BC · Shipping by Canada Post · No platform in between.
-          </div>
-        </div>
-      </footer>
-    </div>
+    </DetailFrame>
   );
 }

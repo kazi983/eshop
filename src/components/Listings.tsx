@@ -132,11 +132,13 @@ function ListingCard({ listing }: { listing: Listing }) {
           </div>
         )}
 
-        {/* 写真エリア全体を覆う透明なリンク。クリックで詳細（モーダル or ページ）へ。 */}
+        {/* 写真エリア全体を覆う透明なリンク。クリックで「プレビュー」＝モーダルを開く。
+            `<Link>`（クライアント側の遷移）なので Intercepting Route が効き、
+            必ずモーダル側（@modal/(.)listings/[id]）が使われる。 */}
         <Link
           href={`/listings/${listing.id}`}
-          className="absolute inset-0"
-          aria-label={`View ${listing.photos.length} photos of ${listing.name}`}
+          className="absolute inset-0 cursor-zoom-in"
+          aria-label={`Preview ${listing.photos.length} photos of ${listing.name}`}
         />
         <span className="pointer-events-none absolute right-2.5 bottom-2.5 inline-flex items-center gap-1 font-mono text-[11px] text-white/90 drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">
           <svg viewBox="0 0 24 24" aria-hidden className="h-3 w-3 fill-current">
@@ -163,12 +165,17 @@ function ListingCard({ listing }: { listing: Listing }) {
       </div>
 
       <div className="flex flex-1 flex-col gap-1 p-4">
-        <Link
+        {/* 商品名は普通の <a> タグ（Next.js の <Link> ではない）。理由：Intercepting
+            Route は「クライアント側の遷移（<Link>、router.push）」だけを横取りする
+            仕組みなので、<Link> を使うとここも写真と同じくモーダルになってしまう。
+            素の <a> はブラウザの通常のページ読み込み＝ hard navigation になるので、
+            必ず listings/[id]/page.tsx（普通のページ）の方が表示される。 */}
+        <a
           href={`/listings/${listing.id}`}
           className="text-[15.5px] leading-snug font-bold hover:underline"
         >
           {listing.name}
-        </Link>
+        </a>
         <p className="text-muted text-[13.5px] leading-relaxed">
           {listing.story}
         </p>

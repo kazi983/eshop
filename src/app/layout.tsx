@@ -1,36 +1,36 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Root layout
+// ルートレイアウト（Root Layout）
 //
-// In the Next.js App Router, every folder under `src/app/` is a URL segment,
-// and a `layout.tsx` file wraps every page inside that folder.
-// This file sits at the very top (`src/app/layout.tsx`), so it wraps EVERY
-// page of the shop. That makes it the right place for:
-//   - the <html> and <body> tags (only the root layout may render them)
-//   - global CSS
-//   - fonts
-//   - site-wide metadata (<title>, <meta name="description">, ...)
-//   - later: the header with the cart icon, the footer, etc.
+// App Router では `src/app/` 以下のフォルダがそのまま URL のセグメント（segment）
+// になり、`layout.tsx` はそのフォルダ内のすべてのページを包む（wrap する）。
+// このファイルは最上位（`src/app/layout.tsx`）にあるので、サイトの「全ページ」を包む。
+// そのため、ここに置くのは次のようなもの：
+//   - <html> と <body> タグ（これを書けるのはルートレイアウトだけ）
+//   - グローバル CSS（global CSS）
+//   - フォント（fonts）
+//   - サイト全体のメタデータ（metadata：<title>、<meta name="description"> など）
+//   - 今後：カートアイコン付きのヘッダー（header）、フッター（footer）
 //
-// Layouts do NOT re-render when you navigate between pages below them,
-// so shared UI (like a header) keeps its state while the page changes.
+// レイアウトは配下のページ間を移動（navigation）しても再レンダリング（re-render）
+// されない。だからヘッダーのような共通 UI は、ページが変わっても状態（state）を保てる。
 //
-// This is a Server Component (the default in the App Router): it runs on the
-// server and sends plain HTML to the browser, with no JavaScript for it.
+// これは Server Component（App Router のデフォルト）。サーバー上で実行され、
+// ブラウザにはプレーンな HTML だけが届く。このコンポーネント用の JavaScript は送られない。
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
-// `next/font` downloads the font at BUILD time and serves it from our own
-// domain. The browser never talks to Google, which is faster and better for
-// privacy. It also prevents the page from "jumping" when the font loads.
+// `next/font` はフォントをビルド時（build time）にダウンロードし、自分のドメインから配信する。
+// ブラウザが Google に直接アクセスしないので、速くてプライバシー（privacy）にも良い。
+// フォント読み込み時にページがガタッと動く現象（layout shift）も防げる。
 import { Geist, Geist_Mono } from "next/font/google";
-// Importing a .css file here applies it to the whole site.
+// ここで .css ファイルを import すると、サイト全体に適用される。
 import "./globals.css";
 
 const geistSans = Geist({
-  // Exposes the font as a CSS variable, so CSS (and Tailwind) can use it:
-  // `font-family: var(--font-geist-sans)`.
+  // フォントを CSS 変数（CSS variable）として公開する。
+  // CSS（や Tailwind）から `font-family: var(--font-geist-sans)` のように使える。
   variable: "--font-geist-sans",
-  // Only download the characters we need (English text → "latin").
+  // 必要な文字だけをダウンロードする（英語のテキストなので "latin"）。
   subsets: ["latin"],
 });
 
@@ -39,10 +39,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// `metadata` is a special export. Next.js turns it into <head> tags.
-// Child pages can override it (e.g. each product page gets its own title).
+// `metadata` は特別な export。Next.js がこれを <head> タグに変換する。
+// 子ページで上書き（override）できる（例：商品ページごとに別のタイトル）。
 export const metadata: Metadata = {
-  // `template` lets child pages set just "T-shirt" and get "T-shirt | eshop".
+  // `template` を使うと、子ページで "T-shirt" とだけ書けば "T-shirt | eshop" になる。
   title: {
     default: "eshop",
     template: "%s | eshop",
@@ -50,17 +50,17 @@ export const metadata: Metadata = {
   description: "A small online shop. Prices in Canadian dollars (CAD).",
 };
 
-// `LayoutProps<"/">` is a type that Next.js generates for us from the folder
-// structure. It says "this layout receives `children`" (the current page).
+// `LayoutProps<"/">` は、フォルダ構成から Next.js が自動生成する型（generated type）。
+// 「このレイアウトは `children`（現在のページ）を受け取る」という意味。
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    // lang="en" helps screen readers and search engines. The store is
-    // English-only (with prices in CAD), so this never changes.
+    // lang="en" はスクリーンリーダー（screen reader）や検索エンジンの助けになる。
+    // ストアは英語のみ（価格は CAD）なので、この値は変わらない。
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      {/* `children` is whatever page matches the current URL. */}
+      {/* `children` は現在の URL に一致する（match する）ページ。 */}
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Hard-coded listing data (Step 1).
+// Hard-coded listing data (Step 1, extended in Step 2).
 //
 // This shape matches the latest design (docs/design/kazis-garage-reference.html,
 // "take 5 · shop mode"): a mix of one-off used items AND new items Kazi
@@ -20,6 +20,15 @@ export type DeliveryMode = "any" | "ship" | "pickup";
 // Canada Post box tiers, smallest to largest — see SHIP_RATES below.
 export type ShipSize = "S" | "M" | "L";
 
+// A single "photo". There are no real product photos yet, so each one is
+// just a caption plus a color/shape — the same placeholder-block system
+// used everywhere else, reused once per photo instead of once per listing.
+export type Photo = {
+  label: string;
+  color: "red" | "yellow" | "blue";
+  shape: "square" | "circle" | "pill";
+};
+
 export type Listing = {
   id: string;
   name: string;
@@ -32,10 +41,8 @@ export type Listing = {
   stock: number; // 0 = sold/out of stock. 1 = one-of-a-kind. >1 = restockable.
   size: ShipSize;
   mode: DeliveryMode;
-  media: {
-    color: "red" | "yellow" | "blue";
-    shape: "square" | "circle" | "pill";
-  };
+  media: { color: Photo["color"]; shape: Photo["shape"] };
+  photos: Photo[]; // shown on the detail page/modal gallery. media = photos[0].
   soldDate?: string; // only meaningful when stock === 0
 };
 
@@ -62,6 +69,12 @@ export const listings: Listing[] = [
     size: "M",
     mode: "any",
     media: { color: "red", shape: "square" },
+    photos: [
+      { label: "Front", color: "red", shape: "square" },
+      { label: "Case open", color: "yellow", shape: "circle" },
+      { label: "Display reading", color: "blue", shape: "pill" },
+      { label: "Manual and box", color: "red", shape: "circle" },
+    ],
   },
   {
     id: "gloves",
@@ -75,6 +88,10 @@ export const listings: Listing[] = [
     size: "S",
     mode: "any",
     media: { color: "blue", shape: "pill" },
+    photos: [
+      { label: "Box", color: "blue", shape: "pill" },
+      { label: "Glove close-up", color: "blue", shape: "square" },
+    ],
   },
   {
     id: "tent",
@@ -88,6 +105,12 @@ export const listings: Listing[] = [
     size: "L",
     mode: "any",
     media: { color: "yellow", shape: "circle" },
+    photos: [
+      { label: "Pitched", color: "yellow", shape: "circle" },
+      { label: "Packed in bag", color: "yellow", shape: "square" },
+      { label: "Vestibule", color: "red", shape: "circle" },
+      { label: "The bent stake", color: "blue", shape: "square" },
+    ],
   },
   {
     id: "light",
@@ -102,6 +125,11 @@ export const listings: Listing[] = [
     size: "S",
     mode: "any",
     media: { color: "yellow", shape: "square" },
+    photos: [
+      { label: "Sealed box", color: "yellow", shape: "square" },
+      { label: "Magnetic base", color: "blue", shape: "circle" },
+      { label: "Lit up", color: "yellow", shape: "pill" },
+    ],
   },
   {
     id: "kallax",
@@ -115,6 +143,11 @@ export const listings: Listing[] = [
     size: "L",
     mode: "pickup", // too big to box up
     media: { color: "blue", shape: "square" },
+    photos: [
+      { label: "Assembled, before", color: "blue", shape: "square" },
+      { label: "Flat-packed", color: "red", shape: "square" },
+      { label: "Corner scuff", color: "blue", shape: "circle" },
+    ],
   },
   {
     id: "cloth",
@@ -128,6 +161,10 @@ export const listings: Listing[] = [
     size: "S",
     mode: "any",
     media: { color: "red", shape: "circle" },
+    photos: [
+      { label: "6-pack", color: "red", shape: "circle" },
+      { label: "Dual pile", color: "red", shape: "pill" },
+    ],
   },
   {
     id: "rice",
@@ -141,6 +178,11 @@ export const listings: Listing[] = [
     size: "L",
     mode: "any",
     media: { color: "red", shape: "pill" },
+    photos: [
+      { label: "Front", color: "red", shape: "pill" },
+      { label: "Inner pot", color: "yellow", shape: "circle" },
+      { label: "Accessories", color: "blue", shape: "square" },
+    ],
   },
   {
     id: "lantern",
@@ -155,6 +197,11 @@ export const listings: Listing[] = [
     size: "S",
     mode: "ship", // drop-shipped, never in Kazi's hands
     media: { color: "blue", shape: "circle" },
+    photos: [
+      { label: "Lantern", color: "blue", shape: "circle" },
+      { label: "USB-C port", color: "blue", shape: "square" },
+      { label: "Low mode at night", color: "yellow", shape: "circle" },
+    ],
   },
   {
     id: "bike",
@@ -168,6 +215,15 @@ export const listings: Listing[] = [
     size: "L",
     mode: "pickup",
     media: { color: "yellow", shape: "circle" },
+    photos: [
+      { label: "Side view", color: "yellow", shape: "circle" },
+      { label: "Drivetrain", color: "blue", shape: "square" },
+      { label: "Cockpit", color: "red", shape: "pill" },
+    ],
     soldDate: "Sep 21",
   },
 ];
+
+export function getListing(id: string): Listing | undefined {
+  return listings.find((l) => l.id === id);
+}

@@ -11,6 +11,30 @@
 
 ---
 
+## Step 2: Listing detail
+
+### Q1: なぜ `Modal` は Client Component か
+
+**Q (EN):** `src/components/Modal.tsx` starts with `"use client"`. What two
+things does it do that specifically require this, and why couldn't
+`ListingDetail.tsx` (which it wraps) stay a Server Component if it needed to
+do those same things?
+
+**Status:** ❓ 未回答
+
+---
+
+### Q2: インターセプトの分かれ道
+
+**Q (EN):** Visiting `/listings/torque` shows a modal when you click a
+listing's name from the home page, but shows a full page when you paste that
+same URL directly into the address bar and hit enter. Why do these two
+paths render differently, even though the URL ends up identical?
+
+**Status:** ❓ 未回答
+
+---
+
 ## Step 1: Homepage
 
 ### Q4: データの形とロジックを分けてスコープ管理する

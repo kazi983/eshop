@@ -13,6 +13,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { Category, DeliveryMode, Listing } from "@/lib/listings";
 
 type ConditionFilter = "all" | "new" | "used";
@@ -112,7 +113,7 @@ function ListingCard({ listing }: { listing: Listing }) {
             SOLD
           </span>
         ) : (
-          <div className="absolute top-2.5 right-2.5 left-2.5 flex flex-wrap gap-1.5">
+          <div className="pointer-events-none absolute top-2.5 right-2.5 left-2.5 flex flex-wrap gap-1.5">
             <span
               className={`border-ink font-mono text-[11px] leading-relaxed font-medium ${
                 listing.isNew ? "bg-ink text-yellow" : "bg-paper"
@@ -130,10 +131,44 @@ function ListingCard({ listing }: { listing: Listing }) {
             </span>
           </div>
         )}
+
+        {/* 写真エリア全体を覆う透明なリンク。クリックで詳細（モーダル or ページ）へ。 */}
+        <Link
+          href={`/listings/${listing.id}`}
+          className="absolute inset-0"
+          aria-label={`View ${listing.photos.length} photos of ${listing.name}`}
+        />
+        <span className="pointer-events-none absolute right-2.5 bottom-2.5 inline-flex items-center gap-1 font-mono text-[11px] text-white/90 drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">
+          <svg viewBox="0 0 24 24" aria-hidden className="h-3 w-3 fill-current">
+            <rect
+              x="3"
+              y="7"
+              width="18"
+              height="13"
+              fillOpacity="0"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+            <circle
+              cx="12"
+              cy="13.5"
+              r="3.5"
+              fillOpacity="0"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+          </svg>
+          {listing.photos.length}
+        </span>
       </div>
 
       <div className="flex flex-1 flex-col gap-1 p-4">
-        <p className="text-[15.5px] leading-snug font-bold">{listing.name}</p>
+        <Link
+          href={`/listings/${listing.id}`}
+          className="text-[15.5px] leading-snug font-bold hover:underline"
+        >
+          {listing.name}
+        </Link>
         <p className="text-muted text-[13.5px] leading-relaxed">
           {listing.story}
         </p>

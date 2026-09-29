@@ -51,7 +51,7 @@ npm run dev        # 開発サーバー（dev server）を起動 → http://loca
 
 - [x] **Step 0:** プロジェクトのセットアップ（project setup）（[ノート](docs/learn/00-project-setup.md)）
 - [x] **Step 1:** ホームページ（完成イメージを実装。見た目のみ、カート/決済のロジックは無し）（[ノート](docs/learn/01-homepage.md)）
-- [ ] **Step 2:** 出品詳細ページ（listing detail page）
+- [x] **Step 2:** 出品詳細（listing detail）。モーダル（クリック時）とページ（`/listings/[id]`、直接アクセス/共有用）の両方を Intercepting Routes で実装（[ノート](docs/learn/02-listing-detail.md)）
 - [ ] **Step 3:** CSS 深掘り：Tailwind vs CSS Modules
 - [ ] **Step 4:** カート（cart）：クライアント状態（client state）、ブラウザに保存（persist）
 - [ ] **Step 5:** データベース：PostgreSQL + Drizzle。出品（listings）・在庫（stock）のスキーマ（schema）

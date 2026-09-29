@@ -54,13 +54,21 @@ export const metadata: Metadata = {
     "Kazi's garage sale that never closes. Vancouver, BC. No fees, no algorithm — just Kazi and his stuff.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+// Step 2: `modal` は Parallel Route（並行ルート）のスロット。
+// `src/app/@modal/` フォルダがあると、Next.js が自動的にこの props を
+// 用意してくれる（`children` と同じように、名前だけで対応するフォルダの
+// 中身が渡ってくる）。出品詳細をモーダルで開いたときはここに何かが入り、
+// それ以外（`src/app/@modal/default.tsx` が使われるとき）は null になる。
+export default function RootLayout({ children, modal }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${delaGothicOne.variable} ${zenKakuGothicNew.variable} ${dmMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        {children}
+        {modal}
+      </body>
     </html>
   );
 }

@@ -78,6 +78,17 @@ tell you about the business model this site is built for?
 > `quantity`/variant fields in the type reflects that: this is a personal
 > marketplace, not a shop catalog."
 
+**フォローアップ質問：** "`quantity` ではなく `stock` と書いているのも同じ理由？"
+
+**回答の要点：** 違う軸。`quantity` は中立的な「数」で、買い手側の文脈（カートの
+希望数）でよく使う。`stock` は「誰が今何個持っているか」＝売り手側の在庫を指す
+小売の専門用語で、むしろカタログ的な語彙。`Listing`/`Product` の軸（personal
+vs. catalog）とは別の軸（誰の数を数えているか）。加えて、`stock` という
+フィールド名自体は参考実装（Kazi's Garage.html）のデータをそのまま踏襲した
+もので、UI のバッジ表示（"in stock"）とも語彙を揃えている。1つの原則を
+他の命名にも万能に当てはめようとすると、今回のようにズレることがある、
+という例。
+
 ---
 
 ## Step 0: Project setup

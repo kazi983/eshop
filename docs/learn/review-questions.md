@@ -32,17 +32,23 @@ distinction useful for keeping a step's scope under control?
 `src/app/page.tsx` (which renders it) stays a Server Component? What's the
 general rule for deciding where the `"use client"` boundary goes?
 
-**Status:** ❓ 未回答
+**Status:** ✅ 理解できている
 
----
+**回答の要約：** 「client での操作が必要かどうかをファイルごとに判断し、不要なら
+Server Component にする」「state を使って見た目をサーバーを介さずに変えたいときに
+client 操作が必要」——核心を正確に理解できていた。判断基準を「state」だけに
+限定していたので、`onClick` などのイベントハンドラーや `useEffect`、
+`localStorage` などブラウザ専用 API も同じ理由（ブラウザでしか実行できない）で
+Client Component が必要になる、と補足した。
 
-### Q2: 回転とはみ出しのバグ
+**Model answer (EN):**
 
-**Q (EN):** The receipt card's bottom row ("I get") was getting clipped on
-the right edge. What caused it, and why did increasing the parent's padding
-and shrinking the card's `max-width` fix it?
-
-**Status:** ❓ 未回答
+> "The `'use client'` boundary is decided per component, not per whole app: a
+> component only needs to be a Client Component if it uses something that can
+> only run in the browser — state (`useState`), other Hooks (`useEffect`),
+> event handlers (`onClick`), or browser-only APIs like `localStorage`.
+> Everything else stays a Server Component, which is the default, so JS for
+> it never ships to the browser."
 
 ---
 

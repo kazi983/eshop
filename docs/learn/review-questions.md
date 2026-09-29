@@ -58,7 +58,25 @@ Client Component が必要になる、と補足した。
 instead of `Product`, and what does its shape (no `quantity`, no variants)
 tell you about the business model this site is built for?
 
-**Status:** ❓ 未回答
+**Status:** ⚠️ 要復習
+
+**回答の要約：** 「Listing の方が良い」という結論は正しかったが、理由として
+「リストを表示する意味合いが出るから」と回答しており、"list"（一覧・配列）と
+"a listing"（不動産・eBay などで使う「1件の出品」の意味）を混同していた。
+本来の理由——`Product` は新品・SKU・複数在庫・バリエーションを持つ「カタログの
+商品」を連想させる言葉、`Listing` は個人が出す「1件の出品」を連想させる言葉で、
+このサイトのビジネスモデル（フリマ的な個人販売）に合っている——には触れられず、
+質問後半（`quantity`/variant が無いことが何を語るか）への回答も無かった。
+
+**Model answer (EN):**
+
+> "`Listing` was chosen over `Product` because these items are posted for
+> sale individually — like a real-estate or eBay listing — not manufactured
+> goods sitting in a catalog. `Product` implies a SKU with stock and variants
+> (size, color) at scale; `Listing` implies one specific posting, whether
+> it's a one-of-a-kind used item or a restockable new one. The absence of
+> `quantity`/variant fields in the type reflects that: this is a personal
+> marketplace, not a shop catalog."
 
 ---
 

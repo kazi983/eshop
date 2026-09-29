@@ -22,7 +22,26 @@ _fields_ to `Listing` (`isNew`, `stock`, `mode`, `size`) but NOT add any
 "the data's shape" and "the logic that acts on it," and why is that
 distinction useful for keeping a step's scope under control?
 
-**Status:** ❓ 未回答
+**Status:** ✅ 理解できている
+
+**回答の要約：** フィルター（チップ）は「画面上だけの処理」、Add to cart は
+「ブラウザに保存したい＝責務が異なる」と正確に切り分けた。元の質問（データの形
+vs ロジック）を、さらに具体的に「一時的な状態（ephemeral、useState のみ）」vs
+「永続的な状態（persistent、localStorage への保存が必要）」という軸で言い換えて
+おり、README のロードマップの Step 4（カート：クライアント状態、ブラウザに
+保存）の意図とも一致している。
+
+**Model answer (EN):**
+
+> "The filter is purely ephemeral UI state — it only decides what's
+> currently shown on screen, and it's fine for it to reset on reload, so a
+> plain `useState` was enough for Step 1. The cart is different: it needs to
+> _persist_ across reloads and navigation, which means it has to solve a new
+> problem — reading from and writing to `localStorage` (or eventually a
+> database) — that the filter never had to solve. That's a bigger
+> responsibility than 'just render this data,' so it belongs in its own step
+> (Step 4), where I can focus on it properly instead of bolting it on as an
+> afterthought."
 
 ---
 

@@ -1,9 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // ホームページ（Home page） →  URL: "/"
 //
-// Step 1: docs/design/kazis-garage-reference.html を、実際に動く Next.js +
-// Tailwind のページに変換する。商品データはまだハードコード（データベースは
-// Step 5 で導入）。
+// Step 1: docs/design/kazis-garage-reference.html（"take 5 · shop mode"）を、
+// 実際に動く Next.js + Tailwind のページに変換する。商品データはまだ
+// ハードコード（データベースは Step 5 で導入）。
+//
+// このステップでは「見た目」だけを反映している。完成イメージにはカートの
+// 開閉・Stripe 決済・配送料の計算が入っているが、それらはまだ実装しない
+// （別のステップでまとめてやる）。Nav の「Cart」ボタンは見た目だけで、
+// クリックしても何も起きない。
 //
 // このファイル自体は Server Component（先頭に "use client" が無い）。
 // クリックしても何も変わらない部分（Nav・Hero・Ticker・About・Footer）は
@@ -17,29 +22,53 @@ import { listings } from "@/lib/listings";
 import { Listings } from "@/components/Listings";
 
 const TICKER_ITEMS = [
+  "No platform fees",
+  "New & used",
+  "Ships across Canada",
+  "Free pickup in East Van",
+  "Secure checkout by Stripe",
   "No app to download",
-  "No seller fees",
-  "No buyer fees",
-  "No algorithm",
-  "Just me and my stuff",
-  "Pickup in East Van",
 ];
 
-const STEPS = [
+// 「配送する」「取りに来てもらう」の2ルート。それぞれ3ステップ。
+const PATHS = [
   {
-    title: "Send me a message",
-    body: 'Tap "Ask about this." Ask anything, and pick a time that works for you.',
-    bg: "bg-red text-paper",
+    title: "Ship it",
+    note: "Canada Post · tracked",
+    headBg: "bg-blue text-paper",
+    steps: [
+      {
+        title: "Add to cart and pay",
+        body: "Card, Apple Pay or Google Pay through Stripe. I never see your card number.",
+      },
+      {
+        title: "I pack it within 2 business days",
+        body: "Everything in your cart goes in one box, so you pay shipping once.",
+      },
+      {
+        title: "Track it to your door",
+        body: "You get a Canada Post tracking number by email.",
+      },
+    ],
   },
   {
-    title: "Meet me in East Van",
-    body: "Pickup near Commercial–Broadway SkyTrain. Check the item before you pay.",
-    bg: "bg-yellow text-ink",
-  },
-  {
-    title: "Pay by e-Transfer",
-    body: "Interac e-Transfer or cash. The listed price is the full price.",
-    bg: "bg-blue text-paper",
+    title: "Pick it up",
+    note: "Free · East Van",
+    headBg: "bg-yellow text-ink",
+    steps: [
+      {
+        title: "Choose pickup at checkout",
+        body: "Pay online, or reserve it and pay in person by e-Transfer.",
+      },
+      {
+        title: "We pick a time",
+        body: "I email you within a day with a few time slots.",
+      },
+      {
+        title: "Meet near Commercial–Broadway",
+        body: "Check the item before you take it home. Big items are pickup only; a few new items are ships only.",
+      },
+    ],
   },
 ];
 
@@ -55,8 +84,6 @@ const buttonBase =
   "border-[3px] border-ink px-5 py-3 font-bold shadow-[4px_4px_0_var(--ink)] transition-[transform,box-shadow] duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--ink)] active:translate-x-0.75 active:translate-y-0.75 active:shadow-[1px_1px_0_var(--ink)]";
 
 export default function HomePage() {
-  const forSaleCount = listings.filter((l) => !l.sold).length;
-
   return (
     <div className="border-ink bg-paper mx-auto my-5.5 max-w-[1040px] border-[3px] shadow-[5px_5px_0_var(--ink)] sm:shadow-[8px_8px_0_var(--ink)]">
       {/* ---- Nav ---- */}
@@ -76,32 +103,50 @@ export default function HomePage() {
           </span>
           Kazi&apos;s Garage
         </a>
-        <nav
-          aria-label="Main"
-          className="flex flex-wrap gap-x-4.5 gap-y-1.5 text-sm font-bold"
-        >
-          <a
-            href="#sale"
-            className="hover:border-red border-b-[3px] border-transparent no-underline"
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <nav
+            aria-label="Main"
+            className="flex flex-wrap gap-x-4.5 gap-y-1.5 text-sm font-bold"
           >
-            For sale
-            <span className="bg-red text-paper ml-1 rounded-full px-1.5 py-px align-[1px] font-mono text-[11px]">
-              {forSaleCount}
+            <a
+              href="#sale"
+              className="hover:border-red border-b-[3px] border-transparent no-underline"
+            >
+              Shop
+            </a>
+            <a
+              href="#how"
+              className="hover:border-red border-b-[3px] border-transparent no-underline"
+            >
+              Shipping &amp; pickup
+            </a>
+            <a
+              href="#about"
+              className="hover:border-red border-b-[3px] border-transparent no-underline"
+            >
+              About me
+            </a>
+          </nav>
+          {/* 見た目だけの Cart ボタン。カートの状態管理は別ステップで実装する。 */}
+          <button
+            type="button"
+            aria-label="Cart, 0 items"
+            className="border-ink bg-yellow inline-flex cursor-default items-center gap-2 border-[3px] px-3 py-1.5 text-sm font-bold shadow-[3px_3px_0_var(--ink)]"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden
+              className="stroke-ink h-4.5 w-4.5 fill-none stroke-[2.2]"
+            >
+              <path d="M4 7h16l-1.5 11a2 2 0 0 1-2 1.7H7.5a2 2 0 0 1-2-1.7L4 7Z" />
+              <path d="M8 7V5a4 4 0 0 1 8 0v2" />
+            </svg>
+            Cart
+            <span className="bg-red text-paper min-w-5 rounded-full px-1.5 text-center font-mono text-xs">
+              0
             </span>
-          </a>
-          <a
-            href="#how"
-            className="hover:border-red border-b-[3px] border-transparent no-underline"
-          >
-            How to buy
-          </a>
-          <a
-            href="#about"
-            className="hover:border-red border-b-[3px] border-transparent no-underline"
-          >
-            About me
-          </a>
-        </nav>
+          </button>
+        </div>
       </header>
 
       {/* ---- Hero ---- */}
@@ -114,17 +159,19 @@ export default function HomePage() {
             Hi, I&apos;m Kazi · Vancouver, BC
           </p>
           <h1 className="font-display mb-4.5 text-[clamp(34px,5.6vw,58px)] leading-[1.05] tracking-[-0.01em] text-balance">
-            My stuff, my site, <span className="text-red">zero&nbsp;fees</span>.{" "}
-            <span className="text-blue">Pick it up</span> from me.
+            My stuff, my site,{" "}
+            <span className="text-red">no&nbsp;middleman</span>.{" "}
+            <span className="text-blue">Shipped</span> or picked&nbsp;up.
           </h1>
-          <p className="mb-6.5 max-w-[44ch] text-[16.5px]">
-            This is my corner of the internet, plus a garage sale that never
-            closes. Things I&apos;ve loved and don&apos;t use anymore, priced
-            fairly, sold straight from me to you.
+          <p className="mb-6.5 max-w-[46ch] text-[16.5px]">
+            This is my corner of the internet, plus a shop that never closes.
+            Some things are used and one of a kind, some are brand new with a
+            few in stock. Pay securely by card, and I&apos;ll mail it anywhere
+            in Canada or hand it to you in East Van.
           </p>
           <div className="flex flex-wrap gap-3">
             <a href="#sale" className={`${buttonBase} bg-red text-paper`}>
-              See what&apos;s for sale
+              Shop now
             </a>
             <a href="#about" className={`${buttonBase} bg-paper text-ink`}>
               Who&apos;s selling?
@@ -133,8 +180,8 @@ export default function HomePage() {
         </div>
 
         <div
-          className="border-ink bg-blue relative flex min-w-0 items-center justify-center overflow-hidden border-t-[3px] px-9 py-11 sm:border-t-0 sm:border-l-[3px]"
-          aria-label="Example price tag: $134 listed, no platform fee, seller receives $134"
+          className="border-ink bg-blue relative flex min-w-0 items-center justify-center overflow-hidden border-t-[3px] px-12 py-11 sm:border-t-0 sm:border-l-[3px]"
+          aria-label="Example price tag: price $134, no platform fee added, you pay $134"
         >
           <span
             aria-hidden
@@ -145,7 +192,7 @@ export default function HomePage() {
             className="border-ink bg-red absolute -bottom-7.5 left-4.5 h-22.5 w-22.5 rotate-[12deg] border-[3px]"
           />
 
-          <div className="border-ink bg-paper relative z-1 w-full max-w-64 -rotate-3 border-[3px] px-5 pt-4.5 pb-5 shadow-[7px_7px_0_var(--ink)]">
+          <div className="border-ink bg-paper relative z-1 w-full max-w-72 -rotate-3 border-[3px] px-5 pt-4.5 pb-5 shadow-[7px_7px_0_var(--ink)]">
             <span
               aria-hidden
               className="border-ink bg-blue mx-auto mb-2.5 block h-3.5 w-3.5 rounded-full border-[3px]"
@@ -153,14 +200,14 @@ export default function HomePage() {
             <p className="border-ink mb-3 border-b-2 border-dashed pb-2.5 text-sm font-bold">
               Digital Torque Wrench Set
             </p>
-            <div className="flex justify-between gap-3 py-0.75 font-mono text-sm tabular-nums">
-              <span>You pay</span>
+            <div className="flex justify-between gap-3 py-0.75 font-mono text-[13.5px] tabular-nums">
+              <span>Price</span>
               <span>$134.00</span>
             </div>
-            <div className="text-muted relative py-0.75 font-mono text-sm tabular-nums">
+            <div className="text-muted relative py-0.75 font-mono text-[13.5px] tabular-nums">
               <div className="flex justify-between gap-3">
-                <span>Platform fee</span>
-                <span>−$13.40</span>
+                <span className="whitespace-nowrap">Platform fee (10%)</span>
+                <span className="whitespace-nowrap">+$13.40</span>
               </div>
               <span
                 aria-hidden
@@ -168,17 +215,19 @@ export default function HomePage() {
               />
             </div>
             <div className="border-ink mt-2 flex justify-between gap-3 border-t-[3px] pt-2.5 text-[17px] font-medium">
-              <span>I get</span>
+              <span>You pay</span>
               <span>$134.00</span>
             </div>
 
             <div
               aria-hidden
-              className="border-ink bg-yellow font-display absolute -right-4.5 -bottom-5.5 grid h-19.5 w-19.5 rotate-[12deg] animate-[pop_0.4s_1.05s_cubic-bezier(0.3,1.6,0.5,1)_both] place-items-center rounded-full border-[3px] text-center text-[21px] leading-[0.95]"
+              className="border-ink bg-yellow font-display absolute -right-5 -bottom-6.5 grid h-21 w-21 rotate-[12deg] animate-[pop_0.4s_1.05s_cubic-bezier(0.3,1.6,0.5,1)_both] place-items-center rounded-full border-[3px] text-center text-[22px] leading-[0.95]"
             >
               0%
-              <small className="block font-mono text-[9px] tracking-wide">
-                FEES
+              <small className="mt-0.5 block font-mono text-[8.5px] tracking-wide">
+                PLATFORM
+                <br />
+                FEE
               </small>
             </div>
           </div>
@@ -202,31 +251,41 @@ export default function HomePage() {
       {/* ---- Listings: the only Client Component on this page ---- */}
       <Listings listings={listings} />
 
-      {/* ---- How it works ---- */}
+      {/* ---- Two ways to get it ---- */}
       <section id="how" className="border-ink border-b-[3px] px-7.5 py-9">
         <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-display text-[26px]">How buying works</h2>
+          <h2 className="font-display text-[26px]">Two ways to get it</h2>
           <span className="text-muted font-mono text-[12.5px]">
-            Usually done in a day or two
+            Choose at checkout
           </span>
         </div>
-        <div className="border-ink grid grid-cols-1 border-[3px] sm:grid-cols-3">
-          {STEPS.map((step, i) => (
-            <div
-              key={step.title}
-              className={`p-5 pb-5.5 ${
-                i > 0
-                  ? "border-ink border-t-[3px] sm:border-t-0 sm:border-l-[3px]"
-                  : ""
-              }`}
-            >
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {PATHS.map((path) => (
+            <div key={path.title} className="border-ink min-w-0 border-[3px]">
               <div
-                className={`border-ink font-display mb-3 grid h-9.5 w-9.5 place-items-center border-[3px] text-lg ${step.bg}`}
+                className={`border-ink flex flex-wrap items-baseline justify-between gap-2.5 border-b-[3px] px-4.5 py-3 ${path.headBg}`}
               >
-                {i + 1}
+                <h3 className="font-display text-lg">{path.title}</h3>
+                <span className="font-mono text-xs">{path.note}</span>
               </div>
-              <h3 className="mb-1 text-[16.5px] font-bold">{step.title}</h3>
-              <p className="text-muted text-sm">{step.body}</p>
+              <ol className="grid gap-3 px-4.5 py-4">
+                {path.steps.map((step, i) => (
+                  <li
+                    key={step.title}
+                    className="grid grid-cols-[28px_minmax(0,1fr)] gap-3 text-sm"
+                  >
+                    <span className="border-ink bg-paper font-display grid h-7 w-7 place-items-center border-2 text-[13px]">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <b className="block text-[15px] font-bold">
+                        {step.title}
+                      </b>
+                      <span className="text-muted">{step.body}</span>
+                    </div>
+                  </li>
+                ))}
+              </ol>
             </div>
           ))}
         </div>
@@ -250,8 +309,8 @@ export default function HomePage() {
             <p className="max-w-[62ch]">
               I&apos;m Kazi, a software engineer in Vancouver who fixes his own
               car on weekends and buys one tool too many. This site is where I
-              write about projects, and where good things find their next owner
-              instead of a landfill.
+              write about projects, sell things I&apos;ve outgrown, and stock a
+              few items I like enough to buy in bulk.
             </p>
             <ul className="mt-4 grid gap-2">
               {NOW_ITEMS.map((item) => (
@@ -275,8 +334,7 @@ export default function HomePage() {
         <div>
           <div className="font-display text-base">Kazi&apos;s Garage</div>
           <div className="text-[13px] opacity-85">
-            Vancouver, BC · Every dollar you pay reaches me, and nobody takes a
-            cut.
+            Vancouver, BC · Shipping by Canada Post · No platform in between.
           </div>
         </div>
       </footer>

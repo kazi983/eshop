@@ -1,40 +1,6 @@
 <!doctype html>
 <html>
   <head>
-    <meta charset="utf8" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover"
-    />
-    <style>
-      :root {
-        color-scheme: light;
-        box-sizing: border-box;
-        padding-top: env(safe-area-inset-top, 0px);
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-      }
-      html {
-        scroll-padding-top: env(safe-area-inset-top, 0px);
-      }
-      body {
-        margin: 0;
-        padding: 0;
-        font:
-          14px -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
-        background: #faf9f5;
-        color: #141413;
-      }
-      img {
-        max-width: 100%;
-      }
-      [hidden]:not([hidden="until-found" i]) {
-        display: none !important;
-      }
-    </style>
-  </head>
-  <body>
     <title>Kazi's Garage</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -43,7 +9,7 @@
       rel="stylesheet"
     />
     <style>
-      /* Layout: a personal homepage that is also a permanent garage sale.
+      /* Layout: a personal homepage that is also a permanent garage sale, now with a cart.
      Flat primary blocks, thick ink outlines, hard offset shadows.
      Single light theme on purpose: primaries need white paper. */
       :root {
@@ -53,6 +19,7 @@
         --red: #e8302a;
         --yellow: #ffd100;
         --blue: #1f4bd8;
+        --green: #0f8a4a;
         --soft: #f1f1ee;
         --muted: #55555c;
         --display: "Dela Gothic One", "Arial Black", sans-serif;
@@ -84,12 +51,16 @@
       a {
         color: inherit;
       }
+      button {
+        font-family: var(--body);
+        color: var(--ink);
+      }
       :focus-visible {
         outline: 3px solid var(--blue);
         outline-offset: 3px;
       }
 
-      /* ---- Design note above the mock ---- */
+      /* ---- Design note ---- */
       .intro {
         max-width: 1040px;
         margin: 0 auto;
@@ -105,7 +76,7 @@
       }
       .intro p {
         margin: 0;
-        max-width: 66ch;
+        max-width: 70ch;
         color: var(--muted);
         font-size: 14px;
       }
@@ -158,6 +129,12 @@
       .logo-mark i:nth-child(4) {
         background: var(--paper);
       }
+      .nav-right {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 20px;
+      }
       .links {
         display: flex;
         flex-wrap: wrap;
@@ -172,15 +149,46 @@
       .links a:hover {
         border-color: var(--red);
       }
-      .links .count {
+      .cart-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 6px 12px;
+        border: var(--line);
+        background: var(--yellow);
+        cursor: pointer;
+        box-shadow: 3px 3px 0 var(--ink);
+      }
+      .cart-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 var(--ink);
+      }
+      .cart-btn svg {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: var(--ink);
+        stroke-width: 2.2;
+      }
+      .cart-n {
         font-family: var(--mono);
-        font-size: 11px;
+        font-size: 12px;
         background: var(--red);
         color: var(--paper);
-        padding: 1px 6px;
-        margin-left: 4px;
         border-radius: 999px;
-        vertical-align: 1px;
+        min-width: 20px;
+        padding: 0 6px;
+        text-align: center;
+      }
+      .cart-btn.bump {
+        animation: bump 0.35s;
+      }
+      @keyframes bump {
+        40% {
+          transform: scale(1.12) rotate(-3deg);
+        }
       }
 
       /* ---- Hero ---- */
@@ -221,7 +229,7 @@
       }
       .hero-sub {
         margin: 0 0 26px;
-        max-width: 44ch;
+        max-width: 46ch;
         font-size: 16.5px;
       }
       .ctas {
@@ -258,7 +266,6 @@
         color: var(--ink);
       }
 
-      /* Price tag: the whole pitch in one receipt */
       .hero-art {
         background: var(--blue);
         border-left: var(--line);
@@ -296,7 +303,7 @@
         position: relative;
         z-index: 1;
         width: 100%;
-        max-width: 290px;
+        max-width: 300px;
         background: var(--paper);
         border: var(--line);
         box-shadow: 7px 7px 0 var(--ink);
@@ -323,7 +330,7 @@
         justify-content: space-between;
         gap: 12px;
         font-family: var(--mono);
-        font-size: 14px;
+        font-size: 13.5px;
         font-variant-numeric: tabular-nums;
         padding: 3px 0;
       }
@@ -359,10 +366,10 @@
       }
       .stamp {
         position: absolute;
-        right: -18px;
-        bottom: -22px;
-        width: 78px;
-        height: 78px;
+        right: -20px;
+        bottom: -26px;
+        width: 84px;
+        height: 84px;
         border-radius: 50%;
         background: var(--yellow);
         border: var(--line);
@@ -370,7 +377,7 @@
         place-items: center;
         text-align: center;
         font-family: var(--display);
-        font-size: 21px;
+        font-size: 22px;
         line-height: 0.95;
         transform: rotate(12deg);
         animation: pop 0.4s 1.05s cubic-bezier(0.3, 1.6, 0.5, 1) both;
@@ -378,8 +385,9 @@
       .stamp small {
         display: block;
         font-family: var(--mono);
-        font-size: 9px;
-        letter-spacing: 0.08em;
+        font-size: 8.5px;
+        letter-spacing: 0.06em;
+        margin-top: 2px;
       }
       @keyframes pop {
         from {
@@ -390,20 +398,25 @@
         }
       }
 
-      /* ---- Ticker (the quiet message) ---- */
+      /* ---- Ticker ---- */
       .ticker {
         background: var(--yellow);
         border-bottom: var(--line);
         overflow: hidden;
         white-space: nowrap;
       }
+      /* Two identical halves, no gap between them, so -50% lands exactly on the seam */
       .ticker-track {
-        display: inline-flex;
-        gap: 34px;
+        display: flex;
+        width: max-content;
         padding: 9px 0;
         font-family: var(--display);
         font-size: 15px;
-        animation: scroll 32s linear infinite;
+        animation: scroll 30s linear infinite !important;
+        will-change: transform;
+      }
+      .ticker-track span {
+        padding-right: 34px;
       }
       .ticker-track span::after {
         content: "●";
@@ -444,25 +457,35 @@
         color: var(--muted);
       }
 
-      /* Filter chips */
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 18px;
+        margin-bottom: 20px;
+        align-items: center;
+      }
       .chips {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin-bottom: 18px;
       }
       .chip {
-        font: 700 13px var(--body);
+        font-weight: 700;
+        font-size: 13px;
         padding: 5px 12px;
         border: 2px solid var(--ink);
         background: var(--paper);
         border-radius: 999px;
         cursor: pointer;
-        color: var(--ink);
       }
       .chip[aria-pressed="true"] {
         background: var(--ink);
         color: var(--paper);
+      }
+      .filters .sep {
+        width: 2px;
+        height: 24px;
+        background: var(--ink);
       }
 
       /* Listings */
@@ -503,7 +526,7 @@
         background: var(--blue);
       }
       .shape {
-        width: 44%;
+        width: 42%;
         aspect-ratio: 1;
         border: var(--line);
         background: var(--paper);
@@ -511,27 +534,41 @@
       .shape.circle {
         border-radius: 50%;
       }
-      .shape.tri {
-        background: none;
-        border: none;
-        width: 0;
-        height: 0;
-        aspect-ratio: auto;
-        border-left: 44px solid transparent;
-        border-right: 44px solid transparent;
-        border-bottom: 76px solid var(--paper);
-        filter: drop-shadow(0 0 0 var(--ink));
+      .shape.pill {
+        aspect-ratio: 2 / 1;
+        width: 56%;
+        border-radius: 999px;
       }
-      .cond {
+      .badges {
         position: absolute;
         top: 10px;
         left: 10px;
+        right: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .badge {
         font-family: var(--mono);
         font-size: 11px;
         font-weight: 500;
         background: var(--paper);
         border: 2px solid var(--ink);
-        padding: 2px 8px;
+        padding: 1px 7px;
+        line-height: 1.5;
+      }
+      .badge.new {
+        background: var(--ink);
+        color: var(--yellow);
+      }
+      .badge.stock {
+        margin-left: auto;
+      }
+      .badge.one {
+        margin-left: auto;
+        background: var(--red);
+        color: var(--paper);
+        border-color: var(--ink);
       }
       .card.sold .media {
         filter: grayscale(1);
@@ -573,6 +610,7 @@
         gap: 8px;
         margin-top: auto;
         padding-top: 10px;
+        flex-wrap: wrap;
       }
       .price {
         font-family: var(--mono);
@@ -587,76 +625,167 @@
         text-decoration: line-through;
         margin-left: 6px;
       }
-      .where {
+      .ship {
         font-size: 12px;
         font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
       }
-      .card .ask {
+      .ship::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        border: 2px solid var(--ink);
+        background: var(--blue);
+      }
+      .ship.pickup::before {
+        background: var(--yellow);
+        border-radius: 50%;
+      }
+      .ship.gone {
+        color: var(--muted);
+      }
+      .ship.gone::before {
+        content: "✕";
+        width: auto;
+        height: auto;
+        border: 0;
+        background: none;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1;
+      }
+      .ship.both::before {
+        background: linear-gradient(135deg, var(--blue) 50%, var(--yellow) 50%);
+      }
+      .plan {
+        border: var(--line);
+        padding: 12px 14px;
+        display: grid;
+        gap: 8px;
+        background: var(--soft);
+      }
+      .plan-row {
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr);
+        gap: 10px;
+        font-size: 13px;
+        align-items: baseline;
+      }
+      .plan-note {
+        margin: 0;
+        font-size: 12.5px;
+        font-weight: 700;
+      }
+      .secure {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+      .secure svg {
+        width: 13px;
+        height: 13px;
+        fill: none;
+        stroke: var(--muted);
+        stroke-width: 2.4;
+        flex: none;
+      }
+      .add {
         margin-top: 10px;
-        font: 700 13.5px var(--body);
+        font-weight: 700;
+        font-size: 13.5px;
         padding: 8px 12px;
         border: 2px solid var(--ink);
         background: var(--yellow);
         cursor: pointer;
         text-align: center;
-        color: var(--ink);
       }
-      .card .ask:hover {
+      .add:hover:not(:disabled) {
         background: var(--ink);
         color: var(--yellow);
       }
-      .card.sold .ask {
+      .add.in {
+        background: var(--paper);
+      }
+      .add:disabled {
         background: var(--soft);
         color: var(--muted);
         cursor: default;
       }
 
       /* How it works */
-      .steps {
+      .paths {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0;
-        border: var(--line);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
       }
-      .step {
-        padding: 20px 20px 22px;
+      .path {
+        border: var(--line);
         min-width: 0;
       }
-      .step + .step {
-        border-left: var(--line);
+      .path-head {
+        padding: 12px 18px;
+        border-bottom: var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 10px;
+        flex-wrap: wrap;
       }
-      .step-num {
-        width: 38px;
-        height: 38px;
-        display: grid;
-        place-items: center;
+      .path-head h3 {
+        margin: 0;
         font-family: var(--display);
+        font-weight: 400;
         font-size: 18px;
-        border: var(--line);
-        margin-bottom: 12px;
       }
-      .step:nth-child(1) .step-num {
-        background: var(--red);
-        color: var(--paper);
+      .path-head span {
+        font-family: var(--mono);
+        font-size: 12px;
       }
-      .step:nth-child(2) .step-num {
-        background: var(--yellow);
-      }
-      .step:nth-child(3) .step-num {
+      .path.ship-path .path-head {
         background: var(--blue);
         color: var(--paper);
       }
-      .step h3 {
-        margin: 0 0 4px;
-        font-size: 16.5px;
+      .path.pick-path .path-head {
+        background: var(--yellow);
       }
-      .step p {
+      .path ol {
         margin: 0;
+        padding: 16px 18px 18px;
+        list-style: none;
+        counter-reset: s;
+        display: grid;
+        gap: 12px;
+      }
+      .path li {
+        counter-increment: s;
+        display: grid;
+        grid-template-columns: 30px minmax(0, 1fr);
+        gap: 12px;
         font-size: 14px;
+      }
+      .path li::before {
+        content: counter(s);
+        width: 28px;
+        height: 28px;
+        border: 2px solid var(--ink);
+        display: grid;
+        place-items: center;
+        font-family: var(--display);
+        font-size: 13px;
+        background: var(--paper);
+      }
+      .path li b {
+        display: block;
+        font-size: 15px;
+      }
+      .path li span {
         color: var(--muted);
       }
 
-      /* About (the homepage half) */
+      /* About */
       .about {
         display: grid;
         grid-template-columns: 180px minmax(0, 1fr);
@@ -721,7 +850,6 @@
         text-align: center;
       }
 
-      /* Footer */
       .foot {
         display: flex;
         flex-wrap: wrap;
@@ -740,19 +868,266 @@
         font-size: 13px;
         opacity: 0.85;
       }
-      .hanko {
-        font-family: "Zen Kaku Gothic New", sans-serif;
-        font-weight: 700;
-        font-size: 13px;
-        color: var(--red);
-        border: 2px solid var(--red);
-        padding: 4px 8px;
+
+      /* ---- Cart drawer ---- */
+      .scrim {
+        position: fixed;
+        inset: 0;
+        background: rgba(17, 17, 20, 0.45);
+        z-index: 40;
+      }
+      .drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(420px, 100%);
+        z-index: 50;
         background: var(--paper);
-        transform: rotate(-4deg);
-        display: inline-block;
-        writing-mode: vertical-rl;
-        letter-spacing: 0.1em;
-        line-height: 1.2;
+        border-left: var(--line);
+        display: flex;
+        flex-direction: column;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        animation: slide 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      @keyframes slide {
+        from {
+          transform: translateX(100%);
+        }
+      }
+      .d-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: var(--line);
+        background: var(--yellow);
+      }
+      .d-head h2 {
+        font-size: 22px;
+      }
+      .x {
+        width: 36px;
+        height: 36px;
+        border: var(--line);
+        background: var(--paper);
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .d-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .empty {
+        text-align: center;
+        padding: 40px 10px;
+        color: var(--muted);
+      }
+      .empty b {
+        display: block;
+        font-family: var(--display);
+        font-weight: 400;
+        color: var(--ink);
+        font-size: 20px;
+        margin-bottom: 6px;
+      }
+      .lines {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 12px;
+      }
+      .line {
+        display: grid;
+        grid-template-columns: 52px minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        padding-bottom: 12px;
+        border-bottom: 2px dashed var(--ink);
+      }
+      .thumb {
+        width: 52px;
+        height: 52px;
+        border: 2px solid var(--ink);
+      }
+      .l-name {
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 1.3;
+        margin: 0;
+      }
+      .l-meta {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 2px 0 0;
+      }
+      .l-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+      }
+      .l-price {
+        font-family: var(--mono);
+        font-size: 14px;
+        font-variant-numeric: tabular-nums;
+      }
+      .qty {
+        display: inline-flex;
+        border: 2px solid var(--ink);
+      }
+      .qty button {
+        width: 26px;
+        height: 26px;
+        border: 0;
+        background: var(--paper);
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .qty button:disabled {
+        color: var(--muted);
+        cursor: default;
+      }
+      .qty output {
+        min-width: 26px;
+        text-align: center;
+        font-family: var(--mono);
+        font-size: 13px;
+        line-height: 26px;
+        border-inline: 2px solid var(--ink);
+      }
+      .rm {
+        border: 0;
+        background: none;
+        font-size: 12px;
+        text-decoration: underline;
+        cursor: pointer;
+        color: var(--muted);
+        padding: 0;
+      }
+      .one-note {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      fieldset {
+        border: var(--line);
+        margin: 0;
+        padding: 0;
+      }
+      legend {
+        font-family: var(--display);
+        font-size: 15px;
+        padding: 0 8px;
+        margin-left: 10px;
+      }
+      .opt {
+        display: grid;
+        grid-template-columns: 20px minmax(0, 1fr) auto;
+        gap: 10px;
+        padding: 12px 14px;
+        align-items: start;
+        cursor: pointer;
+      }
+      .opt + .opt {
+        border-top: 2px solid var(--ink);
+      }
+      .opt input {
+        margin: 3px 0 0;
+        accent-color: var(--red);
+        width: 16px;
+        height: 16px;
+      }
+      .opt b {
+        display: block;
+        font-size: 14px;
+      }
+      .opt small {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+      .opt .amt {
+        font-family: var(--mono);
+        font-size: 13px;
+      }
+      .opt.off {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .warn {
+        font-size: 12.5px;
+        background: var(--soft);
+        border-left: 4px solid var(--red);
+        padding: 8px 10px;
+        margin: 0;
+      }
+
+      .totals {
+        display: grid;
+        gap: 4px;
+        font-family: var(--mono);
+        font-size: 14px;
+        font-variant-numeric: tabular-nums;
+      }
+      .totals div {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .totals .zero {
+        color: var(--green);
+      }
+      .totals .grand {
+        font-size: 18px;
+        font-weight: 500;
+        border-top: var(--line);
+        padding-top: 8px;
+        margin-top: 6px;
+      }
+      .d-foot {
+        padding: 16px 20px 20px;
+        border-top: var(--line);
+        display: grid;
+        gap: 10px;
+      }
+      .pay {
+        width: 100%;
+        font-size: 16px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+      .pay:disabled {
+        background: var(--soft);
+        color: var(--muted);
+        box-shadow: none;
+        cursor: default;
+        transform: none;
+      }
+      .secure {
+        font-size: 12px;
+        color: var(--muted);
+        text-align: center;
+        margin: 0;
+      }
+      .demo {
+        font-size: 13px;
+        border: 2px solid var(--ink);
+        background: var(--yellow);
+        padding: 10px 12px;
+        margin: 0;
       }
 
       @media (max-width: 760px) {
@@ -762,17 +1137,13 @@
         .hero-art {
           border-left: 0;
           border-top: var(--line);
-          padding: 44px 24px 52px;
+          padding: 44px 24px 56px;
         }
         .grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
-        .steps {
+        .paths {
           grid-template-columns: 1fr;
-        }
-        .step + .step {
-          border-left: 0;
-          border-top: var(--line);
         }
       }
       @media (max-width: 520px) {
@@ -796,8 +1167,24 @@
         .foot {
           padding-inline: 18px;
         }
+        .drawer {
+          border-left: 0;
+        }
       }
     </style>
+  </head>
+  <body>
+    <div class="intro">
+      <p class="kicker">Direction — take 5 · shop mode</p>
+      <p>
+        Added <strong>a cart, Stripe checkout and Canada Post shipping</strong>.
+        Listings now show <strong>New / Used</strong> and
+        <strong>one-of-a-kind vs. multiple in stock</strong>. The price tag is
+        written from the buyer's side: the listed price is exactly what you pay.
+        Checkout is a demo here; nothing is charged. Try mixing a ships-only
+        item (lantern) with a pickup-only item (shelf).
+      </p>
+    </div>
 
     <div class="site">
       <header class="nav">
@@ -806,47 +1193,61 @@
             ><i></i><i></i><i></i><i></i></span
           >Kazi's Garage</a
         >
-        <nav class="links" aria-label="Main">
-          <a href="#sale">For sale<span class="count">5</span></a>
-          <a href="#how">How to buy</a>
-          <a href="#about">About me</a>
-        </nav>
+        <div class="nav-right">
+          <nav class="links" aria-label="Main">
+            <a href="#sale">Shop</a>
+            <a href="#how">Shipping &amp; pickup</a>
+            <a href="#about">About me</a>
+          </nav>
+          <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M4 7h16l-1.5 11a2 2 0 0 1-2 1.7H7.5a2 2 0 0 1-2-1.7L4 7Z"
+              />
+              <path d="M8 7V5a4 4 0 0 1 8 0v2" />
+            </svg>
+            Cart <span class="cart-n" id="cartN">0</span>
+          </button>
+        </div>
       </header>
 
       <section class="hero" id="top">
         <div class="hero-copy">
           <p class="hello">Hi, I'm Kazi · Vancouver, BC</p>
           <h1>
-            My stuff, my site, <span class="hl-red">zero&nbsp;fees</span>.
-            <span class="hl-blue">Pick it up</span> from me.
+            My stuff, my site, <span class="hl-red">no&nbsp;middleman</span>.
+            <span class="hl-blue">Shipped</span> or picked&nbsp;up.
           </h1>
           <p class="hero-sub">
-            This is my corner of the internet, plus a garage sale that never
-            closes. Things I've loved and don't use anymore, priced fairly, sold
-            straight from me to you.
+            This is my corner of the internet, plus a shop that never closes.
+            Some things are used and one of a kind, some are brand new with a
+            few in stock. Pay securely by card, and I'll mail it anywhere in
+            Canada or hand it to you in East Van.
           </p>
           <div class="ctas">
-            <a class="btn btn-primary" href="#sale">See what's for sale</a>
+            <a class="btn btn-primary" href="#sale">Shop now</a>
             <a class="btn btn-ghost" href="#about">Who's selling?</a>
           </div>
         </div>
 
         <div
           class="hero-art"
-          aria-label="Example price tag: $134 listed, no platform fee, seller receives $134"
+          aria-label="Example price tag: price $134, no platform fee added, you pay $134"
         >
           <div class="tag">
             <div class="tag-hole" aria-hidden="true"></div>
             <p class="tag-item">Digital Torque Wrench Set</p>
-            <div class="tag-row"><span>You pay</span><span>$134.00</span></div>
+            <div class="tag-row"><span>Price</span><span>$134.00</span></div>
             <div class="tag-row fee">
-              <span>Platform fee</span><span>−$13.40</span>
+              <span>Platform fee (10%)</span><span>+$13.40</span>
             </div>
             <div class="tag-row total">
-              <span>I get</span><span>$134.00</span>
+              <span>You pay</span><span>$134.00</span>
             </div>
             <div class="stamp" aria-hidden="true">
-              <span>0%<small>FEES</small></span>
+              <span
+                >0%<small>PLATFORM<br />FEE</small></span
+              >
             </div>
           </div>
         </div>
@@ -854,174 +1255,164 @@
 
       <div class="ticker" aria-hidden="true">
         <div class="ticker-track">
-          <span>No app to download</span><span>No seller fees</span
-          ><span>No buyer fees</span><span>No algorithm</span
-          ><span>Just me and my stuff</span><span>Pickup in East Van</span>
-          <span>No app to download</span><span>No seller fees</span
-          ><span>No buyer fees</span><span>No algorithm</span
-          ><span>Just me and my stuff</span><span>Pickup in East Van</span>
+          <span>No platform fees</span><span>New &amp; used</span
+          ><span>Ships across Canada</span><span>Free pickup in East Van</span
+          ><span>Secure checkout by Stripe</span><span>No app to download</span>
+          <span>No platform fees</span><span>New &amp; used</span
+          ><span>Ships across Canada</span><span>Free pickup in East Van</span
+          ><span>Secure checkout by Stripe</span><span>No app to download</span>
         </div>
       </div>
 
       <section class="block" id="sale">
         <div class="sec-head">
-          <h2>For sale right now</h2>
-          <span class="sec-note">Prices in CAD · updated Sep 29</span>
-        </div>
-        <div class="chips" role="group" aria-label="Filter listings">
-          <button class="chip" id="f-all" aria-pressed="true" data-f="all">
-            All
-          </button>
-          <button
-            class="chip"
-            id="f-garage"
-            aria-pressed="false"
-            data-f="garage"
+          <h2>In the shop</h2>
+          <span class="sec-note" id="count"
+            >Prices in CAD · updated Sep 29</span
           >
-            Garage
-          </button>
-          <button class="chip" id="f-home" aria-pressed="false" data-f="home">
-            Home
-          </button>
-          <button
-            class="chip"
-            id="f-outdoor"
-            aria-pressed="false"
-            data-f="outdoor"
-          >
-            Outdoor
-          </button>
         </div>
-
-        <div class="grid" id="grid">
-          <article class="card" data-cat="garage">
-            <div class="m-red media">
-              <span class="shape"></span><span class="cond">Like new</span>
-            </div>
-            <div class="body">
-              <p class="name">Digital Torque Wrench Set</p>
-              <p class="story">
-                Used for one set of winter tires. Case and manual included.
-              </p>
-              <div class="price-row">
-                <span
-                  ><span class="price">$134</span
-                  ><span class="was">$210</span></span
-                ><span class="where">Pickup</span>
-              </div>
-              <button class="ask">Ask about this</button>
-            </div>
-          </article>
-          <article class="card" data-cat="outdoor">
-            <div class="m-yellow media">
-              <span class="shape circle"></span><span class="cond">Good</span>
-            </div>
-            <div class="body">
-              <p class="name">MEC 2-Person Tent</p>
-              <p class="story">
-                Three summers on Vancouver Island. No holes, one bent stake.
-              </p>
-              <div class="price-row">
-                <span><span class="price">$90</span></span
-                ><span class="where">Pickup</span>
-              </div>
-              <button class="ask">Ask about this</button>
-            </div>
-          </article>
-          <article class="card" data-cat="home">
-            <div class="m-blue media">
-              <span class="shape"></span><span class="cond">Fair</span>
-            </div>
-            <div class="body">
-              <p class="name">IKEA Kallax Shelf, 2×4</p>
-              <p class="story">
-                White. Small scuff on one corner. Already disassembled.
-              </p>
-              <div class="price-row">
-                <span><span class="price">$40</span></span
-                ><span class="where">Pickup</span>
-              </div>
-              <button class="ask">Ask about this</button>
-            </div>
-          </article>
-          <article class="card" data-cat="garage">
-            <div class="m-yellow media">
-              <span class="shape"></span><span class="cond">Like new</span>
-            </div>
-            <div class="body">
-              <p class="name">LED Shop Light, 1200 lm</p>
-              <p class="story">
-                Magnetic base, rechargeable. Bought a second one by mistake.
-              </p>
-              <div class="price-row">
-                <span
-                  ><span class="price">$38</span
-                  ><span class="was">$55</span></span
-                ><span class="where">Pickup or ship</span>
-              </div>
-              <button class="ask">Ask about this</button>
-            </div>
-          </article>
-          <article class="card" data-cat="home">
-            <div class="m-red media">
-              <span class="shape circle"></span><span class="cond">Good</span>
-            </div>
-            <div class="body">
-              <p class="name">Zojirushi Rice Cooker, 5.5 cup</p>
-              <p class="story">Works perfectly. Upgraded to a bigger one.</p>
-              <div class="price-row">
-                <span><span class="price">$60</span></span
-                ><span class="where">Pickup</span>
-              </div>
-              <button class="ask">Ask about this</button>
-            </div>
-          </article>
-          <article class="card sold" data-cat="outdoor">
-            <div class="m-blue media">
-              <span class="shape circle"></span
-              ><span class="sold-badge">SOLD</span>
-            </div>
-            <div class="body">
-              <p class="name">Kona Commuter Bike, 54 cm</p>
-              <p class="story">Went to a student at UBC. Ride safe!</p>
-              <div class="price-row">
-                <span><span class="price">$280</span></span
-                ><span class="where">Sold Sep 21</span>
-              </div>
-              <button class="ask" disabled>Sold</button>
-            </div>
-          </article>
+        <div class="filters">
+          <div class="chips" role="group" aria-label="Condition">
+            <button
+              class="chip"
+              id="c-all"
+              data-k="cond"
+              data-v="all"
+              aria-pressed="true"
+            >
+              All
+            </button>
+            <button
+              class="chip"
+              id="c-new"
+              data-k="cond"
+              data-v="new"
+              aria-pressed="false"
+            >
+              New
+            </button>
+            <button
+              class="chip"
+              id="c-used"
+              data-k="cond"
+              data-v="used"
+              aria-pressed="false"
+            >
+              Used
+            </button>
+          </div>
+          <span class="sep" aria-hidden="true"></span>
+          <div class="chips" role="group" aria-label="Category">
+            <button
+              class="chip"
+              id="k-all"
+              data-k="cat"
+              data-v="all"
+              aria-pressed="true"
+            >
+              Everything
+            </button>
+            <button
+              class="chip"
+              id="k-garage"
+              data-k="cat"
+              data-v="garage"
+              aria-pressed="false"
+            >
+              Garage
+            </button>
+            <button
+              class="chip"
+              id="k-home"
+              data-k="cat"
+              data-v="home"
+              aria-pressed="false"
+            >
+              Home
+            </button>
+            <button
+              class="chip"
+              id="k-outdoor"
+              data-k="cat"
+              data-v="outdoor"
+              aria-pressed="false"
+            >
+              Outdoor
+            </button>
+          </div>
         </div>
+        <div class="grid" id="grid"></div>
       </section>
 
       <section class="block" id="how">
         <div class="sec-head">
-          <h2>How buying works</h2>
-          <span class="sec-note">Usually done in a day or two</span>
+          <h2>Two ways to get it</h2>
+          <span class="sec-note">Choose at checkout</span>
         </div>
-        <div class="steps">
-          <div class="step">
-            <div class="step-num">1</div>
-            <h3>Send me a message</h3>
-            <p>
-              Tap "Ask about this." Ask anything, and pick a time that works for
-              you.
-            </p>
+        <div class="paths">
+          <div class="path ship-path">
+            <div class="path-head">
+              <h3>Ship it</h3>
+              <span>Canada Post · tracked</span>
+            </div>
+            <ol>
+              <li>
+                <div>
+                  <b>Add to cart and pay</b
+                  ><span
+                    >Card, Apple Pay or Google Pay through Stripe. I never see
+                    your card number.</span
+                  >
+                </div>
+              </li>
+              <li>
+                <div>
+                  <b>I pack it within 2 business days</b
+                  ><span
+                    >Everything in your cart goes in one box, so you pay
+                    shipping once.</span
+                  >
+                </div>
+              </li>
+              <li>
+                <div>
+                  <b>Track it to your door</b
+                  ><span>You get a Canada Post tracking number by email.</span>
+                </div>
+              </li>
+            </ol>
           </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <h3>Meet me in East Van</h3>
-            <p>
-              Pickup near Commercial–Broadway SkyTrain. Check the item before
-              you pay.
-            </p>
-          </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <h3>Pay by e-Transfer</h3>
-            <p>
-              Interac e-Transfer or cash. The listed price is the full price.
-            </p>
+          <div class="path pick-path">
+            <div class="path-head">
+              <h3>Pick it up</h3>
+              <span>Free · East Van</span>
+            </div>
+            <ol>
+              <li>
+                <div>
+                  <b>Choose pickup at checkout</b
+                  ><span
+                    >Pay online, or reserve it and pay in person by
+                    e-Transfer.</span
+                  >
+                </div>
+              </li>
+              <li>
+                <div>
+                  <b>We pick a time</b
+                  ><span>I email you within a day with a few time slots.</span>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <b>Meet near Commercial–Broadway</b
+                  ><span
+                    >Check the item before you take it home. Big items are
+                    pickup only; a few new items are ships only.</span
+                  >
+                </div>
+              </li>
+            </ol>
           </div>
         </div>
       </section>
@@ -1037,8 +1428,8 @@
             <p>
               I'm Kazi, a software engineer in Vancouver who fixes his own car
               on weekends and buys one tool too many. This site is where I write
-              about projects, and where good things find their next owner
-              instead of a landfill.
+              about projects, sell things I've outgrown, and stock a few items I
+              like enough to buy in bulk.
             </p>
             <ul class="now">
               <li><span class="lbl">Building</span>This site, with Claude</li>
@@ -1053,25 +1444,454 @@
         <div>
           <div class="foot-brand">Kazi's Garage</div>
           <div class="foot-tag">
-            Vancouver, BC · Every dollar you pay reaches me, and nobody takes a
-            cut.
+            Vancouver, BC · Shipping by Canada Post · No platform in between.
           </div>
         </div>
       </footer>
     </div>
 
+    <!-- Cart drawer -->
+    <div class="scrim" id="scrim" hidden></div>
+    <aside
+      class="drawer"
+      id="drawer"
+      hidden
+      aria-label="Cart"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="d-head">
+        <h2>Your cart</h2>
+        <button class="x" id="closeCart" aria-label="Close cart">×</button>
+      </div>
+      <div class="d-body" id="dBody"></div>
+      <div class="d-foot" id="dFoot"></div>
+    </aside>
+
     <script>
-      const chips = document.querySelectorAll(".chip");
-      const cards = document.querySelectorAll("#grid .card");
-      chips.forEach((c) =>
+      const PRODUCTS = [
+        {
+          id: "torque",
+          name: "Digital Torque Wrench Set",
+          story: "Used for one set of winter tires. Case and manual included.",
+          cond: "Like new",
+          isNew: false,
+          cat: "garage",
+          price: 134,
+          was: 210,
+          stock: 1,
+          size: "M",
+          color: "red",
+          shape: "",
+        },
+        {
+          id: "gloves",
+          name: "Nitrile Mechanic Gloves, box of 100",
+          story: "The ones I use for every oil change. Size L.",
+          cond: "New",
+          isNew: true,
+          cat: "garage",
+          price: 18,
+          stock: 8,
+          size: "S",
+          color: "blue",
+          shape: "pill",
+        },
+        {
+          id: "tent",
+          name: "MEC 2-Person Tent",
+          story: "Three summers on Vancouver Island. No holes, one bent stake.",
+          cond: "Good",
+          isNew: false,
+          cat: "outdoor",
+          price: 90,
+          stock: 1,
+          size: "L",
+          color: "yellow",
+          shape: "circle",
+        },
+        {
+          id: "light",
+          name: "LED Shop Light, 1200 lm",
+          story: "Magnetic base, rechargeable. Sealed in box.",
+          cond: "New",
+          isNew: true,
+          cat: "garage",
+          price: 38,
+          was: 55,
+          stock: 3,
+          size: "S",
+          color: "yellow",
+          shape: "",
+        },
+        {
+          id: "kallax",
+          name: "IKEA Kallax Shelf, 2×4",
+          story: "White. Small scuff on one corner. Already disassembled.",
+          cond: "Fair",
+          isNew: false,
+          cat: "home",
+          price: 40,
+          stock: 1,
+          size: "X",
+          color: "blue",
+          shape: "",
+        },
+        {
+          id: "cloth",
+          name: "Microfiber Detail Cloths, 6-pack",
+          story: "Lint-free, dual-pile. Safe on paint and glass.",
+          cond: "New",
+          isNew: true,
+          cat: "garage",
+          price: 14,
+          stock: 12,
+          size: "S",
+          color: "red",
+          shape: "circle",
+        },
+        {
+          id: "rice",
+          name: "Zojirushi Rice Cooker, 5.5 cup",
+          story: "Works perfectly. I upgraded to a bigger one.",
+          cond: "Good",
+          isNew: false,
+          cat: "home",
+          price: 60,
+          stock: 1,
+          size: "L",
+          color: "red",
+          shape: "pill",
+        },
+        {
+          id: "lantern",
+          name: "Rechargeable Camp Lantern",
+          story:
+            "Mailed straight from the supplier, so it can’t be picked up. USB-C.",
+          cond: "New",
+          isNew: true,
+          cat: "outdoor",
+          price: 26,
+          stock: 4,
+          size: "S",
+          mode: "ship",
+          color: "blue",
+          shape: "circle",
+        },
+        {
+          id: "bike",
+          name: "Kona Commuter Bike, 54 cm",
+          story: "Went to a student at UBC. Ride safe!",
+          cond: "Used",
+          isNew: false,
+          cat: "outdoor",
+          price: 280,
+          stock: 0,
+          soldOn: "Sep 21",
+          size: "X",
+          color: "yellow",
+          shape: "circle",
+        },
+      ];
+      // Estimated Canada Post rates by box size. X = pickup only. Replace with live rates at checkout.
+      const SHIP = {
+        S: { label: "Small packet", est: 14 },
+        M: { label: "Small box", est: 22 },
+        L: { label: "Medium box", est: 32 },
+      };
+      const ORDER = ["S", "M", "L"];
+      const byId = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
+      const fmt = (n) => "$" + n.toFixed(2);
+
+      let cart = {}; // id -> qty
+      let method = "ship";
+      let filt = { cond: "all", cat: "all" };
+      try {
+        const s = JSON.parse(localStorage.getItem("kg-cart") || "{}");
+        if (s && typeof s === "object")
+          ((cart = s.cart || {}), (method = s.method || "ship"));
+      } catch (e) {}
+      const save = () => {
+        try {
+          localStorage.setItem("kg-cart", JSON.stringify({ cart, method }));
+        } catch (e) {}
+      };
+
+      const grid = document.getElementById("grid");
+      function renderGrid() {
+        grid.innerHTML = "";
+        let shown = 0;
+        PRODUCTS.forEach((p) => {
+          const okC = filt.cond === "all" || (filt.cond === "new") === p.isNew;
+          const okK = filt.cat === "all" || p.cat === filt.cat;
+          if (!okC || !okK) return;
+          shown++;
+          const sold = p.stock === 0;
+          const inCart = cart[p.id] || 0;
+          const left = p.stock - inCart;
+          const el = document.createElement("article");
+          el.className = "card" + (sold ? " sold" : "");
+          const stockBadge = sold
+            ? ""
+            : p.stock === 1
+              ? '<span class="badge one">1 of 1</span>'
+              : `<span class="badge stock">${p.stock} in stock</span>`;
+          let btn;
+          if (sold) btn = '<button class="add" disabled>Sold</button>';
+          else if (left <= 0)
+            btn = `<button class="add in" data-open="1">In your cart ✓</button>`;
+          else
+            btn = `<button class="add" data-add="${p.id}">${inCart ? `Add another (${inCart} in cart)` : "Add to cart"}</button>`;
+          const md = p.mode || (p.size === "X" ? "pickup" : "any");
+          const shipTxt = sold
+            ? `Sold ${p.soldOn}`
+            : {
+                any: "Ships or pickup",
+                ship: "Ships only",
+                pickup: "Pickup only",
+              }[md];
+          el.innerHTML = `
+        <div class="media m-${p.color}"><span class="shape ${p.shape}"></span>
+          ${sold ? '<span class="sold-badge">SOLD</span>' : `<div class="badges"><span class="badge ${p.isNew ? "new" : ""}">${p.isNew ? "NEW" : "USED · " + p.cond}</span>${stockBadge}</div>`}
+        </div>
+        <div class="body">
+          <p class="name">${p.name}</p>
+          <p class="story">${p.story}</p>
+          <div class="price-row">
+            <span><span class="price">$${p.price}</span>${p.was ? `<span class="was">$${p.was}</span>` : ""}</span>
+            <span class="ship ${sold ? "gone" : md === "pickup" ? "pickup" : md === "any" ? "both" : ""}">${shipTxt}</span>
+          </div>
+          ${btn}
+        </div>`;
+          grid.appendChild(el);
+        });
+        document.getElementById("count").textContent =
+          `${shown} items · prices in CAD`;
+      }
+
+      document.querySelectorAll(".chip").forEach((c) =>
         c.addEventListener("click", () => {
-          chips.forEach((x) => x.setAttribute("aria-pressed", String(x === c)));
-          const f = c.dataset.f;
-          cards.forEach((card) => {
-            card.hidden = !(f === "all" || card.dataset.cat === f);
-          });
+          document
+            .querySelectorAll(`.chip[data-k="${c.dataset.k}"]`)
+            .forEach((x) => x.setAttribute("aria-pressed", String(x === c)));
+          filt[c.dataset.k] = c.dataset.v;
+          renderGrid();
         }),
       );
+
+      grid.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        if (b.dataset.add) {
+          const p = byId[b.dataset.add];
+          cart[p.id] = Math.min(p.stock, (cart[p.id] || 0) + 1);
+          save();
+          renderAll();
+          const cb = document.getElementById("cartBtn");
+          cb.classList.remove("bump");
+          void cb.offsetWidth;
+          cb.classList.add("bump");
+        } else if (b.dataset.open) openCart();
+      });
+
+      const modeOf = (p) => p.mode || (p.size === "X" ? "pickup" : "any");
+      const MODE_TXT = {
+        any: "Ships or pickup",
+        ship: "Ships only",
+        pickup: "Pickup only",
+      };
+
+      function calc() {
+        const ids = Object.keys(cart).filter((id) => cart[id] > 0 && byId[id]);
+        const sub = ids.reduce((s, id) => s + byId[id].price * cart[id], 0);
+        const flex = ids.filter((id) => modeOf(byId[id]) === "any");
+        const shipOnly = ids.filter((id) => modeOf(byId[id]) === "ship");
+        const pickOnly = ids.filter((id) => modeOf(byId[id]) === "pickup");
+        const m = method;
+        const shipIds = shipOnly.concat(m === "ship" ? flex : []);
+        const pickIds = pickOnly.concat(m === "pickup" ? flex : []);
+        let tier = null;
+        shipIds.forEach((id) => {
+          const z = byId[id].size;
+          if (!tier || ORDER.indexOf(z) > ORDER.indexOf(tier)) tier = z;
+        });
+        const ship = tier ? SHIP[tier].est : 0;
+        const qty = ids.reduce((s, id) => s + cart[id], 0);
+        return {
+          ids,
+          sub,
+          flex,
+          shipOnly,
+          pickOnly,
+          m,
+          shipIds,
+          pickIds,
+          tier,
+          ship,
+          qty,
+          total: sub + ship,
+        };
+      }
+
+      const names = (ids) =>
+        ids.map((id) => byId[id].name.split(",")[0]).join(", ");
+
+      const dBody = document.getElementById("dBody"),
+        dFoot = document.getElementById("dFoot");
+      function renderCart() {
+        const c = calc();
+        document.getElementById("cartN").textContent = c.qty;
+        document
+          .getElementById("cartBtn")
+          .setAttribute("aria-label", `Open cart, ${c.qty} items`);
+        if (!c.ids.length) {
+          dBody.innerHTML =
+            '<div class="empty"><b>Your cart is empty</b>Add something from the shop. One-of-a-kind items go fast.</div>';
+          dFoot.innerHTML =
+            '<a class="btn btn-ghost pay" href="#sale" id="keep">Keep shopping</a>';
+          document.getElementById("keep").addEventListener("click", closeCart);
+          return;
+        }
+        const lines = c.ids
+          .map((id) => {
+            const p = byId[id],
+              q = cart[id],
+              md = modeOf(p);
+            const control =
+              p.stock === 1
+                ? '<span class="one-note">1 of 1</span>'
+                : `<span class="qty"><button data-dec="${id}" aria-label="One fewer">−</button><output>${q}</output><button data-inc="${id}" aria-label="One more" ${q >= p.stock ? "disabled" : ""}>+</button></span>`;
+            return `<li class="line">
+        <span class="thumb m-${p.color}"></span>
+        <div><p class="l-name">${p.name}</p><p class="l-meta">${p.isNew ? "New" : "Used · " + p.cond}${md !== "any" ? " · " + MODE_TXT[md].toLowerCase() : ""}</p>
+          <button class="rm" data-rm="${id}">Remove</button></div>
+        <div class="l-right"><span class="l-price">${fmt(p.price * q)}</span>${control}</div>
+      </li>`;
+          })
+          .join("");
+
+        const fixed = c.shipOnly.length + c.pickOnly.length > 0;
+        const shipEst = (() => {
+          // what shipping would cost if flexible items were shipped too
+          let t = null;
+          c.shipOnly.concat(c.flex).forEach((id) => {
+            const z = byId[id].size;
+            if (!t || ORDER.indexOf(z) > ORDER.indexOf(t)) t = z;
+          });
+          return t ? SHIP[t] : null;
+        })();
+        const choice = c.flex.length
+          ? `
+      <fieldset>
+        <legend>${fixed ? "How should the rest arrive?" : "Delivery"}</legend>
+        <label class="opt">
+          <input type="radio" name="m" id="m-ship" value="ship" ${c.m === "ship" ? "checked" : ""}>
+          <span><b>Canada Post, tracked</b><small>${c.shipOnly.length ? "Goes in the same box as your ships-only items." : "Everything in one box."} ${shipEst.label}, exact rate at checkout.</small></span>
+          <span class="amt">${fmt(shipEst.est)}</span>
+        </label>
+        <label class="opt">
+          <input type="radio" name="m" id="m-pickup" value="pickup" ${c.m === "pickup" ? "checked" : ""}>
+          <span><b>Pickup in East Van</b><small>Near Commercial–Broadway. I'll email you time slots.</small></span>
+          <span class="amt">Free</span>
+        </label>
+      </fieldset>`
+          : "";
+
+        const split = c.shipIds.length && c.pickIds.length;
+        const plan = `
+      <div class="plan">
+        ${c.shipIds.length ? `<div class="plan-row"><span class="ship">Shipped</span><span>${names(c.shipIds)}</span></div>` : ""}
+        ${c.pickIds.length ? `<div class="plan-row"><span class="ship pickup">Picked up</span><span>${names(c.pickIds)}</span></div>` : ""}
+        ${split ? '<p class="plan-note">Your order arrives in two parts. You pay once.</p>' : ""}
+      </div>`;
+
+        dBody.innerHTML = `
+      <ul class="lines">${lines}</ul>
+      ${choice}
+      ${plan}
+      <div class="totals">
+        <div><span>Subtotal (${c.qty})</span><span>${fmt(c.sub)}</span></div>
+        ${c.shipIds.length ? `<div><span>Shipping (est.)</span><span>${fmt(c.ship)}</span></div>` : ""}
+        ${c.pickIds.length ? `<div><span>Pickup</span><span>${fmt(0)}</span></div>` : ""}
+        <div class="zero"><span>Platform fee</span><span>${fmt(0)}</span></div>
+        <div class="grand"><span>Total</span><span>${fmt(c.total)} CAD</span></div>
+      </div>
+      <p class="demo" id="demoMsg" hidden></p>`;
+
+        const pickupOnlyOrder = !c.shipIds.length;
+        dFoot.innerHTML = `
+      <button class="btn btn-primary pay" id="pay">Checkout · ${fmt(c.total)}</button>
+      ${pickupOnlyOrder ? '<button class="btn btn-ghost pay" id="reserve">Reserve, pay at pickup</button>' : ""}
+      <p class="secure"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Secure payment by Stripe · Card, Apple Pay, Google Pay</p>`;
+        const msg = (t) => {
+          const m = document.getElementById("demoMsg");
+          m.hidden = false;
+          m.textContent = t;
+        };
+        document
+          .getElementById("pay")
+          .addEventListener("click", () =>
+            msg(
+              `Demo only. On the live site this opens a secure Stripe payment page for ${c.qty} item${c.qty > 1 ? "s" : ""}${c.shipIds.length ? " and asks for your shipping address" : ""}. Nothing was charged.`,
+            ),
+          );
+        const r = document.getElementById("reserve");
+        if (r)
+          r.addEventListener("click", () =>
+            msg(
+              "Demo only. On the live site this holds your items for 48 hours and asks for your email so I can send pickup times. You pay by e-Transfer or cash when we meet.",
+            ),
+          );
+      }
+
+      dBody.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        if (b.dataset.inc)
+          cart[b.dataset.inc] = Math.min(
+            byId[b.dataset.inc].stock,
+            cart[b.dataset.inc] + 1,
+          );
+        else if (b.dataset.dec) {
+          cart[b.dataset.dec]--;
+          if (cart[b.dataset.dec] <= 0) delete cart[b.dataset.dec];
+        } else if (b.dataset.rm) delete cart[b.dataset.rm];
+        else return;
+        save();
+        renderAll();
+      });
+      dBody.addEventListener("change", (e) => {
+        if (e.target.name === "m") {
+          method = e.target.value;
+          save();
+          renderCart();
+        }
+      });
+
+      const drawer = document.getElementById("drawer"),
+        scrim = document.getElementById("scrim");
+      function openCart() {
+        drawer.hidden = false;
+        scrim.hidden = false;
+        document.getElementById("closeCart").focus();
+      }
+      function closeCart() {
+        drawer.hidden = true;
+        scrim.hidden = true;
+        document.getElementById("cartBtn").focus();
+      }
+      document.getElementById("cartBtn").addEventListener("click", openCart);
+      document.getElementById("closeCart").addEventListener("click", closeCart);
+      scrim.addEventListener("click", closeCart);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !drawer.hidden) closeCart();
+      });
+
+      function renderAll() {
+        renderGrid();
+        renderCart();
+      }
+      renderAll();
     </script>
   </body>
 </html>

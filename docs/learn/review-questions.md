@@ -13,6 +13,19 @@
 
 ## Step 1: Homepage
 
+### Q4: データの形とロジックを分けてスコープ管理する
+
+**Q (EN):** The design was updated to include a cart and Stripe checkout, and
+you confirmed that's the real direction. Why did the homepage sync add new
+_fields_ to `Listing` (`isNew`, `stock`, `mode`, `size`) but NOT add any
+`onClick` handler to the "Add to cart" button? What's the difference between
+"the data's shape" and "the logic that acts on it," and why is that
+distinction useful for keeping a step's scope under control?
+
+**Status:** ❓ 未回答
+
+---
+
 ### Q1: Server/Client の境界線をどこで引くか
 
 **Q (EN):** Why is `src/components/Listings.tsx` a Client Component while

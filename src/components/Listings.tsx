@@ -44,6 +44,15 @@ const MODE_LABEL: Record<DeliveryMode, string> = {
   pickup: "Pickup only",
 };
 
+// 配送方法ラベルの前に置く、小さな色付きスワッチ（参考実装の `.ship::before` 相当）。
+// ship（配送のみ）＝青い四角、pickup（引き取りのみ）＝黄色い丸、
+// any（どちらでも）＝青と黄色の斜めグラデーション。
+const MODE_SWATCH: Record<DeliveryMode, string> = {
+  ship: "bg-blue",
+  pickup: "rounded-full bg-yellow",
+  any: "bg-[linear-gradient(135deg,var(--blue)_50%,var(--yellow)_50%)]",
+};
+
 function ChipGroup<T extends string>({
   legend,
   options,
@@ -111,7 +120,12 @@ function ListingCard({ listing }: { listing: Listing }) {
             >
               {listing.isNew ? "NEW" : `USED · ${listing.condition}`}
             </span>
-            <span className="border-ink bg-paper ml-auto border-2 px-1.5 font-mono text-[11px] leading-relaxed">
+            {/* 「1 of 1」（一点物）だけは赤背景にして目立たせる。参考実装の .badge.one。 */}
+            <span
+              className={`border-ink ml-auto border-2 px-1.5 font-mono text-[11px] leading-relaxed ${
+                listing.stock === 1 ? "bg-red text-paper" : "bg-paper"
+              }`}
+            >
               {listing.stock === 1 ? "1 of 1" : `${listing.stock} in stock`}
             </span>
           </div>
@@ -138,6 +152,17 @@ function ListingCard({ listing }: { listing: Listing }) {
           <span
             className={`inline-flex items-center gap-1.5 text-xs font-bold ${sold ? "text-muted" : ""}`}
           >
+            {sold ? (
+              // 参考実装の .ship.gone::before（✕マーク）に相当。
+              <span aria-hidden className="text-[12px] leading-none">
+                ✕
+              </span>
+            ) : (
+              <span
+                aria-hidden
+                className={`border-ink h-2.25 w-2.25 border-2 ${MODE_SWATCH[listing.mode]}`}
+              />
+            )}
             {sold ? `Sold ${listing.soldDate}` : MODE_LABEL[listing.mode]}
           </span>
         </div>
@@ -178,14 +203,14 @@ export function Listings({ listings }: { listings: Listing[] }) {
         </span>
       </div>
 
-      <div className="mb-5 flex flex-wrap items-center gap-2.5 sm:gap-4.5">
+      <div className="mb-5 flex flex-wrap items-center gap-x-4.5 gap-y-2.5">
         <ChipGroup
           legend="Condition"
           options={CONDITION_FILTERS}
           value={condition}
           onChange={setCondition}
         />
-        <span aria-hidden className="bg-ink hidden h-6 w-0.5 sm:block" />
+        <span aria-hidden className="bg-ink h-6 w-0.5" />
         <ChipGroup
           legend="Category"
           options={CATEGORY_FILTERS}

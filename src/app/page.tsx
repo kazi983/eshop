@@ -131,7 +131,7 @@ export default function HomePage() {
           <button
             type="button"
             aria-label="Cart, 0 items"
-            className="border-ink bg-yellow inline-flex cursor-default items-center gap-2 border-[3px] px-3 py-1.5 text-sm font-bold shadow-[3px_3px_0_var(--ink)]"
+            className="border-ink bg-yellow inline-flex cursor-default items-center gap-2 border-[3px] px-3 py-1.5 text-sm font-bold shadow-[3px_3px_0_var(--ink)] transition-[transform,box-shadow] duration-100 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--ink)]"
           >
             <svg
               viewBox="0 0 24 24"
@@ -192,7 +192,7 @@ export default function HomePage() {
             className="border-ink bg-red absolute -bottom-7.5 left-4.5 h-22.5 w-22.5 rotate-[12deg] border-[3px]"
           />
 
-          <div className="border-ink bg-paper relative z-1 w-full max-w-72 -rotate-3 border-[3px] px-5 pt-4.5 pb-5 shadow-[7px_7px_0_var(--ink)]">
+          <div className="border-ink bg-paper relative z-1 w-full max-w-80 -rotate-1 border-[3px] px-5 pt-4.5 pb-9 shadow-[7px_7px_0_var(--ink)]">
             <span
               aria-hidden
               className="border-ink bg-blue mx-auto mb-2.5 block h-3.5 w-3.5 rounded-full border-[3px]"
@@ -200,11 +200,11 @@ export default function HomePage() {
             <p className="border-ink mb-3 border-b-2 border-dashed pb-2.5 text-sm font-bold">
               Digital Torque Wrench Set
             </p>
-            <div className="flex justify-between gap-3 py-0.75 font-mono text-[13.5px] tabular-nums">
+            <div className="flex justify-between gap-3 py-0.75 font-mono text-xs tabular-nums">
               <span>Price</span>
               <span>$134.00</span>
             </div>
-            <div className="text-muted relative py-0.75 font-mono text-[13.5px] tabular-nums">
+            <div className="text-muted relative py-0.75 font-mono text-xs tabular-nums">
               <div className="flex justify-between gap-3">
                 <span className="whitespace-nowrap">Platform fee (10%)</span>
                 <span className="whitespace-nowrap">+$13.40</span>
@@ -214,14 +214,15 @@ export default function HomePage() {
                 className="bg-red absolute inset-x-[-4px] top-1/2 h-[3px] origin-left animate-[strike_0.6s_0.5s_cubic-bezier(0.6,0,0.3,1)_both]"
               />
             </div>
-            <div className="border-ink mt-2 flex justify-between gap-3 border-t-[3px] pt-2.5 text-[17px] font-medium">
+            {/* pr-14: 右下に重なる 0% スタンプに文字が隠れないよう、この行だけ右側に余白を確保。 */}
+            <div className="border-ink mt-2 flex justify-between gap-3 border-t-[3px] pt-2.5 pr-14 text-[17px] font-medium">
               <span>You pay</span>
-              <span>$134.00</span>
+              <span className="whitespace-nowrap">$134.00</span>
             </div>
 
             <div
               aria-hidden
-              className="border-ink bg-yellow font-display absolute -right-5 -bottom-6.5 grid h-21 w-21 rotate-[12deg] animate-[pop_0.4s_1.05s_cubic-bezier(0.3,1.6,0.5,1)_both] place-items-center rounded-full border-[3px] text-center text-[22px] leading-[0.95]"
+              className="border-ink bg-yellow font-display absolute -right-3 -bottom-4 grid h-19 w-19 rotate-[12deg] animate-[pop_0.4s_1.05s_cubic-bezier(0.3,1.6,0.5,1)_both] place-items-center rounded-full border-[3px] text-center text-[20px] leading-[0.95]"
             >
               0%
               <small className="mt-0.5 block font-mono text-[8.5px] tracking-wide">
@@ -239,10 +240,15 @@ export default function HomePage() {
         aria-hidden
         className="border-ink bg-yellow overflow-hidden border-b-[3px] whitespace-nowrap"
       >
-        <div className="font-display inline-flex animate-[scroll_32s_linear_infinite] gap-8.5 py-2.25 text-[15px]">
+        {/* 参考実装のコメント通り「同じ内容を2回、隙間なく並べる」ことで、
+            translateX(-50%) がちょうど継ぎ目に着地し、途切れなくループする。 */}
+        <div className="font-display flex w-max animate-[scroll_30s_linear_infinite] py-2.25 text-[15px] will-change-transform">
           {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
-            <span key={i}>
-              {item} <span className="text-red text-[11px]">●</span>
+            <span key={i} className="inline-flex items-baseline pr-8.5">
+              {item}
+              <span aria-hidden className="text-red ml-8.5 text-[11px]">
+                ●
+              </span>
             </span>
           ))}
         </div>

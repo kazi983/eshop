@@ -48,6 +48,13 @@ body {
   font-family: var(--font-body), system-ui, sans-serif;
 }
 
+/* キーボードで Tab 移動しているときだけ、太い青の枠でフォーカス位置を示す。
+   マウスでクリックしたときは出ない（:focus-visible の挙動）。 */
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
 /*
  * カスタムアニメーション。Tailwind の組み込みユーティリティには無いので、
  * `@keyframes` を自分で定義し、`animate-[strike_0.6s_...]` のように

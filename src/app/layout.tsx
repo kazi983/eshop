@@ -19,11 +19,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
-// `next/font` はフォントをビルド時（build time）にダウンロードし、自分のドメインから配信する。
+// Nextjsの特徴：`next/font` はフォントをビルド時（build time）にダウンロードし、自分のドメインから配信する。
 // ブラウザが Google に直接アクセスしないので、速くてプライバシー（privacy）にも良い。
 // フォント読み込み時にページがガタッと動く現象（layout shift）も防げる。
 import { Geist, Geist_Mono } from "next/font/google";
-// ここで .css ファイルを import すると、サイト全体に適用される。
 import "./globals.css";
 
 const geistSans = Geist({
@@ -61,7 +60,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       {/* `children` は現在の URL に一致する（match する）ページ。 */}
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex flex-col min-h-full">{children}</body>
     </html>
   );
 }

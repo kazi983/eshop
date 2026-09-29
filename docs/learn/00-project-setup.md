@@ -12,14 +12,14 @@ npx create-next-app@latest . \
   --import-alias "@/*" --use-npm
 ```
 
-| フラグ（flag）   | 意味                                                                                       |
-| ---------------- | ------------------------------------------------------------------------------------------ |
-| `--ts`           | TypeScript を使う。**type（型）** のおかげで、価格の入れ忘れなどを実行前に見つけられる。   |
-| `--tailwind`     | Tailwind CSS v4 をセットアップする。                                                       |
-| `--eslint`       | **linter** をセットアップする。バグや良くない書き方を検出する。                            |
-| `--app`          | **App Router**（`src/app/`）を使う。現在の標準的なルーティング方式。                       |
-| `--src-dir`      | コードを `src/` に入れて、設定ファイルと分ける。                                           |
-| `--import-alias` | `"../../../lib/x"` ではなく `import x from "@/lib/x"` と書けるようにする。                 |
+| フラグ（flag）   | 意味                                                                                     |
+| ---------------- | ---------------------------------------------------------------------------------------- |
+| `--ts`           | TypeScript を使う。**type（型）** のおかげで、価格の入れ忘れなどを実行前に見つけられる。 |
+| `--tailwind`     | Tailwind CSS v4 をセットアップする。                                                     |
+| `--eslint`       | **linter** をセットアップする。バグや良くない書き方を検出する。                          |
+| `--app`          | **App Router**（`src/app/`）を使う。現在の標準的なルーティング方式。                     |
+| `--src-dir`      | コードを `src/` に入れて、設定ファイルと分ける。                                         |
+| `--import-alias` | `"../../../lib/x"` ではなく `import x from "@/lib/x"` と書けるようにする。               |
 
 ## 2. 各ファイルの役割（What each file is for）
 
@@ -67,12 +67,12 @@ src/app/admin/layout.tsx            →  /admin/* の全ページで共有され
 
 `src/app/` のコンポーネントは、先頭に `"use client"` と書かない限りすべて **Server Component**。
 
-|                               | Server Component（デフォルト）      | Client Component（`"use client"`）                  |
-| ----------------------------- | ----------------------------------- | --------------------------------------------------- |
-| 実行される場所                | サーバーのみ                        | サーバー（最初の HTML）**と**ブラウザ               |
-| DB を直接読める               | ✅                                  | ❌（秘密情報 secrets が漏れてしまう）               |
-| `useState`、`onClick`         | ❌                                  | ✅                                                  |
-| ブラウザに送られる JS         | なし                                | あり                                                |
+|                       | Server Component（デフォルト） | Client Component（`"use client"`）    |
+| --------------------- | ------------------------------ | ------------------------------------- |
+| 実行される場所        | サーバーのみ                   | サーバー（最初の HTML）**と**ブラウザ |
+| DB を直接読める       | ✅                             | ❌（秘密情報 secrets が漏れてしまう） |
+| `useState`、`onClick` | ❌                             | ✅                                    |
+| ブラウザに送られる JS | なし                           | あり                                  |
 
 EC サイトでの使い分け：
 
@@ -102,7 +102,7 @@ Step 1〜4 で両方を実際に使う。
 ## 6. 自分で試してみよう（Try it yourself）
 
 ```bash
-git clone https://github.com/kazi983/eshop.git && cd eshop
+git clone git@github.com:kazi983/eshop.git && cd eshop
 git checkout claude/ecommerce-site-build-4rugwo
 nvm install && nvm use
 npm install
@@ -124,15 +124,15 @@ npm run dev
 
 ## 英語キーワードまとめ（Key English terms）
 
-| English                       | 日本語                         |
-| ----------------------------- | ------------------------------ |
-| scaffold (a project)          | プロジェクトのひな形を作る     |
-| route / routing               | ルート / ルーティング          |
-| layout / wrap                 | 外枠 / 包む                    |
-| Server Component / Client Component | サーバー / クライアントコンポーネント |
-| render / pre-render           | 描画する / 事前に描画する      |
-| dependency                    | 依存パッケージ                 |
-| transaction                   | 一連の処理をまとめて全部成功 or 全部失敗にする仕組み |
-| race condition                | 同時アクセスによる競合         |
-| hosted payment page           | 外部がホストする決済ページ     |
-| free tier                     | 無料枠                         |
+| English                             | 日本語                                               |
+| ----------------------------------- | ---------------------------------------------------- |
+| scaffold (a project)                | プロジェクトのひな形を作る                           |
+| route / routing                     | ルート / ルーティング                                |
+| layout / wrap                       | 外枠 / 包む                                          |
+| Server Component / Client Component | サーバー / クライアントコンポーネント                |
+| render / pre-render                 | 描画する / 事前に描画する                            |
+| dependency                          | 依存パッケージ                                       |
+| transaction                         | 一連の処理をまとめて全部成功 or 全部失敗にする仕組み |
+| race condition                      | 同時アクセスによる競合                               |
+| hosted payment page                 | 外部がホストする決済ページ                           |
+| free tier                           | 無料枠                                               |

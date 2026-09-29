@@ -5,44 +5,90 @@
  * Tailwind CSS v4 は CSS の中で設定（configure）する（tailwind.config.js はもう無い）。
  * この 1 行で Tailwind のリセット（"preflight"）とすべてのユーティリティクラス
  * （utility classes）が読み込まれる。
- * 実際に使ったクラスだけが出力されるので、CSS は小さいまま保たれる。
  */
 @import "tailwindcss";
 
 /*
- * デザイントークン（design tokens）：あちこちで再利用する名前付きの値。
- * ここで色を変えると、サイト全体の色が変わる。
+ * デザイントークン（design tokens）：Kazi's Garage の完成イメージ
+ * （docs/design/kazis-garage-reference.html）に合わせた配色。
+ * フラットな原色 3 色（red/yellow/blue）＋紙のような白（paper）と
+ * 濃いインク色（ink）が基本。ダークモードは無し（`color-scheme: light` を
+ * 明示している = わざと1つの世界に固定するデザイン、と割り切っている）。
  */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #ffffff;
+  --ink: #111114;
+  --red: #e8302a;
+  --yellow: #ffd100;
+  --blue: #1f4bd8;
+  --soft: #f1f1ee;
+  --muted: #55555c;
 }
 
 /*
  * `@theme` で Tailwind にトークンを教えると、ユーティリティクラスが生成される：
- *   --color-background → `bg-background`、`text-background` など
- *   --font-sans        → `font-sans`
- * `inline` は「var(...) の参照をそのまま使う」という意味。
- * そのため下のダークモード（dark mode）の値も、再ビルドなしで反映される。
+ *   --color-ink → `bg-ink`、`text-ink`、`border-ink` などが使えるようになる
  */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-/* OS のダークモード設定に従う（メディアクエリ media query）。 */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-red: var(--red);
+  --color-yellow: var(--yellow);
+  --color-blue: var(--blue);
+  --color-soft: var(--soft);
+  --color-muted: var(--muted);
+  --font-display: var(--font-dela-gothic-one);
+  --font-body: var(--font-zen-kaku-gothic-new);
+  --font-mono: var(--font-dm-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  /* Geist（layout.tsx で読み込み）。無ければシステムフォント（fallback）。 */
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+/* キーボードで Tab 移動しているときだけ、太い青の枠でフォーカス位置を示す。
+   マウスでクリックしたときは出ない（:focus-visible の挙動）。 */
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/*
+ * カスタムアニメーション。Tailwind の組み込みユーティリティには無いので、
+ * `@keyframes` を自分で定義し、`animate-[strike_0.6s_...]` のように
+ * 名前を指定して使う（コンポーネント側の className を参照）。
+ */
+@keyframes strike {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes pop {
+  from {
+    transform: rotate(12deg) scale(0);
+  }
+  to {
+    transform: rotate(12deg) scale(1);
+  }
+}
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* prefers-reduced-motion: アニメーションを見ると気分が悪くなる人への配慮。
+   OS 側で「視差効果を減らす」設定にしている人には、すべてのアニメーションを止める。 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }

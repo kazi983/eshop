@@ -102,7 +102,7 @@ Step 1〜4 で両方を実際に使う。
 ## 6. 自分で試してみよう（Try it yourself）
 
 ```bash
-git clone https://github.com/kazi983/eshop.git && cd eshop
+git clone git@github.com:kazi983/eshop.git && cd eshop
 git checkout claude/ecommerce-site-build-4rugwo
 nvm install && nvm use
 npm install

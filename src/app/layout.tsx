@@ -60,7 +60,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       {/* `children` は現在の URL に一致する（match する）ページ。 */}
-      <body className="flex flex-col min-h-full">{children}</body>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

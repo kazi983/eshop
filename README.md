@@ -18,26 +18,26 @@ npm run dev        # 開発サーバー（dev server）を起動 → http://loca
 
 その他のスクリプト（scripts）：
 
-| コマンド         | 内容                                                  |
-| ---------------- | ----------------------------------------------------- |
-| `npm run dev`    | ホットリロード（hot reload）付きの開発サーバー        |
-| `npm run build`  | 本番ビルド（production build）。型チェックも行う      |
-| `npm start`      | 本番ビルドを配信（serve）する（先に `build` を実行）  |
-| `npm run lint`   | ESLint でコードをチェック                             |
+| コマンド        | 内容                                                 |
+| --------------- | ---------------------------------------------------- |
+| `npm run dev`   | ホットリロード（hot reload）付きの開発サーバー       |
+| `npm run build` | 本番ビルド（production build）。型チェックも行う     |
+| `npm start`     | 本番ビルドを配信（serve）する（先に `build` を実行） |
+| `npm run lint`  | ESLint でコードをチェック                            |
 
 ## 技術スタック（Tech stack / 予定）
 
-| 領域                 | 選択                                                | 無料枠（free tier） |
-| -------------------- | --------------------------------------------------- | ------------------- |
-| フレームワーク       | Next.js (App Router) + React + TypeScript           | —                   |
-| スタイリング         | Tailwind CSS（後で CSS Modules と比較）             | —                   |
-| データベース         | PostgreSQL on Neon + Drizzle ORM                    | ✅                  |
-| 認証（admin 用）     | Auth.js または Better Auth                          | —                   |
-| 決済（payments）     | Stripe Checkout + webhooks（まずテストモード）      | ✅（売上ごとの手数料のみ） |
-| 画像（images）       | 未定（例：Vercel Blob / Cloudinary）                | ✅                  |
-| PWA                  | Web App Manifest + Service Worker (Serwist)         | —                   |
-| ホスティング         | Vercel (Hobby)                                      | ✅                  |
-| テスト               | Vitest + Playwright                                 | —                   |
+| 領域             | 選択                                           | 無料枠（free tier）        |
+| ---------------- | ---------------------------------------------- | -------------------------- |
+| フレームワーク   | Next.js (App Router) + React + TypeScript      | —                          |
+| スタイリング     | Tailwind CSS（後で CSS Modules と比較）        | —                          |
+| データベース     | PostgreSQL on Neon + Drizzle ORM               | ✅                         |
+| 認証（admin 用） | Auth.js または Better Auth                     | —                          |
+| 決済（payments） | Stripe Checkout + webhooks（まずテストモード） | ✅（売上ごとの手数料のみ） |
+| 画像（images）   | 未定（例：Vercel Blob / Cloudinary）           | ✅                         |
+| PWA              | Web App Manifest + Service Worker (Serwist)    | —                          |
+| ホスティング     | Vercel (Hobby)                                 | ✅                         |
+| テスト           | Vitest + Playwright                            | —                          |
 
 ## ロードマップ（Roadmap）
 

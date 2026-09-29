@@ -1,0 +1,8 @@
+# Same exclusions as .gitignore, plus lockfile (Prettier shouldn't reformat it)
+node_modules
+.next
+out
+build
+coverage
+package-lock.json
+next-env.d.ts

@@ -40,3 +40,18 @@ English model answer. Add the question there as soon as it's asked (❓), then
 update its status and fill in the evaluation once it's answered. This file
 is the user's recap/flashcard list — keep it current, don't let it drift
 from the actual chat.
+
+## PR merge check (before starting a new step)
+
+The user forgets to merge the PR after a step. Before starting work on a new
+roadmap step, check whether the PR for the _previous_ step's work has been
+merged (`mcp__github__pull_request_read` or similar on the PR for this
+branch/repo). If it is not merged yet:
+
+- Tell the user plainly: which PR, and that it's still open/unmerged.
+- Do **not** start implementing the new step. Wait for them to merge (or to
+  explicitly say to proceed anyway) before writing any code for the next
+  step.
+
+This check happens every time a step transition is requested ("Step X に進
+もう" or similar), not just once.

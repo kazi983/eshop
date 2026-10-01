@@ -13,6 +13,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { Category, DeliveryMode, Listing } from "@/lib/listings";
 
 type ConditionFilter = "all" | "new" | "used";
@@ -100,19 +101,19 @@ function ListingCard({ listing }: { listing: Listing }) {
         }`}
       >
         {listing.media.shape === "circle" ? (
-          <span className="border-ink bg-paper aspect-square w-[42%] rounded-full border-[3px]" />
+          <span className="bg-paper border-ink aspect-square w-[42%] rounded-full border-[3px]" />
         ) : listing.media.shape === "pill" ? (
-          <span className="border-ink bg-paper aspect-2/1 w-[56%] rounded-full border-[3px]" />
+          <span className="bg-paper border-ink aspect-2/1 w-[56%] rounded-full border-[3px]" />
         ) : (
-          <span className="border-ink bg-paper aspect-square w-[42%] border-[3px]" />
+          <span className="bg-paper border-ink aspect-square w-[42%] border-[3px]" />
         )}
 
         {sold ? (
-          <span className="border-red bg-paper font-display text-red absolute -rotate-[10deg] border-[3px] px-3.5 py-0.5 text-2xl">
+          <span className="bg-paper border-red font-display text-red absolute -rotate-[10deg] border-[3px] px-3.5 py-0.5 text-2xl">
             SOLD
           </span>
         ) : (
-          <div className="absolute top-2.5 right-2.5 left-2.5 flex flex-wrap gap-1.5">
+          <div className="pointer-events-none absolute top-2.5 right-2.5 left-2.5 flex flex-wrap gap-1.5">
             <span
               className={`border-ink font-mono text-[11px] leading-relaxed font-medium ${
                 listing.isNew ? "bg-ink text-yellow" : "bg-paper"
@@ -130,10 +131,51 @@ function ListingCard({ listing }: { listing: Listing }) {
             </span>
           </div>
         )}
+
+        {/* 写真エリア全体を覆う透明なリンク。クリックで「プレビュー」＝モーダルを開く。
+            `<Link>`（クライアント側の遷移）なので Intercepting Route が効き、
+            必ずモーダル側（@modal/(.)listings/[id]）が使われる。 */}
+        <Link
+          href={`/listings/${listing.id}`}
+          className="absolute inset-0 cursor-zoom-in"
+          aria-label={`Preview ${listing.photos.length} photos of ${listing.name}`}
+        />
+        <span className="pointer-events-none absolute right-2.5 bottom-2.5 inline-flex items-center gap-1 font-mono text-[11px] text-white/90 drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">
+          <svg viewBox="0 0 24 24" aria-hidden className="h-3 w-3 fill-current">
+            <rect
+              x="3"
+              y="7"
+              width="18"
+              height="13"
+              fillOpacity="0"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+            <circle
+              cx="12"
+              cy="13.5"
+              r="3.5"
+              fillOpacity="0"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+          </svg>
+          {listing.photos.length}
+        </span>
       </div>
 
       <div className="flex flex-1 flex-col gap-1 p-4">
-        <p className="text-[15.5px] leading-snug font-bold">{listing.name}</p>
+        {/* 商品名は普通の <a> タグ（Next.js の <Link> ではない）。理由：Intercepting
+            Route は「クライアント側の遷移（<Link>、router.push）」だけを横取りする
+            仕組みなので、<Link> を使うとここも写真と同じくモーダルになってしまう。
+            素の <a> はブラウザの通常のページ読み込み＝ hard navigation になるので、
+            必ず listings/[id]/page.tsx（普通のページ）の方が表示される。 */}
+        <a
+          href={`/listings/${listing.id}`}
+          className="text-[15.5px] leading-snug font-bold hover:underline"
+        >
+          {listing.name}
+        </a>
         <p className="text-muted text-[13.5px] leading-relaxed">
           {listing.story}
         </p>

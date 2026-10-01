@@ -101,15 +101,15 @@ function ListingCard({ listing }: { listing: Listing }) {
         }`}
       >
         {listing.media.shape === "circle" ? (
-          <span className="border-ink bg-paper aspect-square w-[42%] rounded-full border-[3px]" />
+          <span className="bg-paper border-ink aspect-square w-[42%] rounded-full border-[3px]" />
         ) : listing.media.shape === "pill" ? (
-          <span className="border-ink bg-paper aspect-2/1 w-[56%] rounded-full border-[3px]" />
+          <span className="bg-paper border-ink aspect-2/1 w-[56%] rounded-full border-[3px]" />
         ) : (
-          <span className="border-ink bg-paper aspect-square w-[42%] border-[3px]" />
+          <span className="bg-paper border-ink aspect-square w-[42%] border-[3px]" />
         )}
 
         {sold ? (
-          <span className="border-red bg-paper font-display text-red absolute -rotate-[10deg] border-[3px] px-3.5 py-0.5 text-2xl">
+          <span className="bg-paper border-red font-display text-red absolute -rotate-[10deg] border-[3px] px-3.5 py-0.5 text-2xl">
             SOLD
           </span>
         ) : (

@@ -27,11 +27,37 @@ do those same things?
 ### Q2: インターセプトの分かれ道
 
 **Q (EN):** Visiting `/listings/torque` shows a modal when you click a
-listing's name from the home page, but shows a full page when you paste that
-same URL directly into the address bar and hit enter. Why do these two
-paths render differently, even though the URL ends up identical?
+listing's **photo** from the home page, but shows a full page when you click
+its **name**, or paste that same URL directly into the address bar. Why do
+these paths render differently, even though the URL ends up identical?
 
-**Status:** ❓ 未回答
+**Status:** ✅ 理解できている
+
+**回答の要約（IDE で選択したコード片について、torque の例で確認）：** 「`<Link>` は
+Next.js のタグ」「`(.)listings` が `@modal` 配下にあるのでモーダルになる」という
+結論は正しかった。2点補足した：
+(1) `<Link>` は常に `(.)` フォルダを探すのではなく、「今いる場所→行き先」の
+組み合わせにマッチする `(.)` フォルダが**存在する場合にだけ**使われる
+（無ければ普通にソフトナビゲーションするだけ）。
+(2) `@modal` という名前自体に「モーダルにする」特別な意味は無く、ただの
+Parallel Route の**スロット名**。重要なのは、そこに入ったコンテンツが
+`{children}`（一覧ページ）を**置き換えずに隣に追加される**こと。画面に
+「重なって見える」見た目自体は、`Modal.tsx` 側で書いた CSS（`fixed`, `z-50` など）
+が作っている。
+
+**Model answer (EN):**
+
+> "Clicking the photo uses `<Link>`, so Next.js's client-side router handles
+> the navigation. It checks whether an Intercepting Route folder —
+> `(.)listings/[id]`, living inside the `@modal` slot — matches this
+> from-here-to-there combination, and if so, renders that instead. Because
+> it lives in `@modal`, its content fills the `modal` slot in the root
+> layout _alongside_ `children`, not in place of it, so the listing grid
+> stays mounted underneath; a `Modal` component then styles that slot as a
+> fixed, layered overlay. Clicking the name uses a plain `<a>` tag, which
+> triggers a real browser navigation that never goes through Next.js's
+> router at all — so there's nothing for the interceptor to catch, and the
+> actual `listings/[id]/page.tsx` renders as a full page."
 
 ---
 

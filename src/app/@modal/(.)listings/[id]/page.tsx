@@ -5,7 +5,7 @@
 // URL には出てこない）。
 //
 // 挙動の違い：
-//   - ホームページの一覧から <Link href="/listings/torque"> をクリック
+//   - ホームページの一覧から <Link href="/listings/"> をクリック
 //     → このファイルが使われる（モーダルとして重ねて表示、裏の一覧は残る）
 //   - `/listings/torque` に直接アクセス／リロード／リンクを共有
 //     → こちらは無視され、`src/app/listings/[id]/page.tsx`（普通のページ）
